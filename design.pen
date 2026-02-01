@@ -1,0 +1,1884 @@
+{
+  "version": "2.6",
+  "children": [
+    {
+      "type": "frame",
+      "id": "e4MtV",
+      "x": 900,
+      "y": 0,
+      "name": "Blog Home",
+      "width": 1440,
+      "height": 3200,
+      "fill": "#FAFAFA",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "9hP9S",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 80,
+          "fill": "#FFFFFF",
+          "padding": [
+            0,
+            56
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "t4FHr",
+              "name": "logo",
+              "fill": "#000000",
+              "content": "STORIES",
+              "fontFamily": "Playfair Display",
+              "fontSize": 24,
+              "fontWeight": "600",
+              "fontStyle": "italic"
+            },
+            {
+              "type": "frame",
+              "id": "6eoMY",
+              "name": "spacer1",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "Hk2Qt",
+              "name": "nav",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xya2F",
+                  "name": "navHome",
+                  "fill": "#000000",
+                  "content": "ホーム",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "jXydJ",
+                  "name": "navSep1",
+                  "fill": "#CCCCCC",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "Q5lVS",
+                  "name": "navCat",
+                  "fill": "#666666",
+                  "content": "カテゴリー",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "HQJzM",
+                  "name": "navSep2",
+                  "fill": "#CCCCCC",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "xp8UZ",
+                  "name": "navAbout",
+                  "fill": "#666666",
+                  "content": "About",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uzI7n",
+          "name": "Hero",
+          "width": "fill_container",
+          "height": 320,
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            80,
+            56,
+            64,
+            56
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "gmY09",
+              "name": "heroTitle",
+              "fill": "#0A0F1C",
+              "content": "読みやすさを\n追求したブログ",
+              "lineHeight": 1.2,
+              "fontFamily": "Playfair Display",
+              "fontSize": 72,
+              "fontWeight": "600",
+              "letterSpacing": -2,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "text",
+              "id": "29wJj",
+              "name": "heroDesc",
+              "fill": "#64748B",
+              "content": "シンプルで美しいタイポグラフィが、あなたの思考を深める読書体験を提供します",
+              "lineHeight": 1.6,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oQRz5",
+          "name": "Content",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 48,
+          "padding": [
+            56,
+            56,
+            80,
+            56
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "kwR3M",
+              "name": "section1",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xBJS7",
+                  "name": "sectionHead",
+                  "width": "fill_container",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jE9jH",
+                      "name": "sectionTitle",
+                      "fill": "#1E293B",
+                      "content": "最新の記事",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 36,
+                      "fontWeight": "600",
+                      "letterSpacing": -1,
+                      "fontStyle": "italic"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CdQFT",
+                      "name": "sectionLine",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#E0E0E0"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cSION",
+                  "name": "articles",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 48,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hctZn",
+                      "name": "Article Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 24,
+                      "padding": [
+                        0,
+                        0,
+                        48,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FwVG0",
+                          "name": "a1date",
+                          "fill": "#64748B",
+                          "content": "2026年1月29日",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 10,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "1Prc1",
+                          "name": "a1title",
+                          "fill": "#0A0F1C",
+                          "content": "タイポグラフィの力：読みやすさがもたらす深い理解",
+                          "lineHeight": 1.3,
+                          "fontFamily": "Playfair Display",
+                          "fontSize": 28,
+                          "fontWeight": "600",
+                          "letterSpacing": -0.5,
+                          "fontStyle": "italic"
+                        },
+                        {
+                          "type": "text",
+                          "id": "fdjiv",
+                          "name": "a1excerpt",
+                          "fill": "#475569",
+                          "content": "美しいタイポグラフィは単なる装飾ではありません。適切なフォント選択、行間、文字間隔は、読者の理解を深め、コンテンツへの没入を促進します。本記事では、Webデザインにおけるタイポグラフィの基本原則と、読みやすさを最大化するための実践的なテクニックを解説します。",
+                          "lineHeight": 1.7,
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "yFlsK",
+                          "name": "a1meta",
+                          "gap": 16,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "wUuDv",
+                              "name": "a1read",
+                              "fill": "#888888",
+                              "content": "8分で読めます",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "SW17r",
+                              "name": "badge1",
+                              "cornerRadius": 100,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "VuGPf",
+                                  "name": "a1cat",
+                                  "fill": "#FFFFFF",
+                                  "content": "デザイン",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "600",
+                                  "letterSpacing": 1
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kNOvg",
+                      "name": "Article Card 2",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 24,
+                      "padding": [
+                        0,
+                        0,
+                        48,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "fiTDl",
+                          "name": "a2date",
+                          "fill": "#64748B",
+                          "content": "2026年1月27日",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 10,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "Y9Nfg",
+                          "name": "a2title",
+                          "fill": "#0A0F1C",
+                          "content": "余白の美学：ミニマルデザインが生む集中力",
+                          "lineHeight": 1.3,
+                          "fontFamily": "Playfair Display",
+                          "fontSize": 28,
+                          "fontWeight": "600",
+                          "letterSpacing": -0.5,
+                          "fontStyle": "italic"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SYA0Z",
+                          "name": "a2excerpt",
+                          "fill": "#475569",
+                          "content": "情報過多の時代において、余白は読者の集中力を保つ重要な要素です。過度な装飾を排除し、本質的なコンテンツに焦点を当てることで、読者はより深くメッセージを受け取ることができます。",
+                          "lineHeight": 1.7,
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "xxfXt",
+                          "name": "a2meta",
+                          "gap": 16,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "bgIG0",
+                              "name": "a2read",
+                              "fill": "#888888",
+                              "content": "5分で読めます",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "DbHPr",
+                              "name": "badge2",
+                              "cornerRadius": 100,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "3uZmQ",
+                                  "name": "a2cat",
+                                  "fill": "#FFFFFF",
+                                  "content": "執筆",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "600",
+                                  "letterSpacing": 1
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Dev6l",
+                      "name": "Article Card 3",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 24,
+                      "padding": [
+                        0,
+                        0,
+                        48,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "xdmnV",
+                          "name": "a3date",
+                          "fill": "#64748B",
+                          "content": "2026年1月25日",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 10,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "MsdB5",
+                          "name": "a3title",
+                          "fill": "#0A0F1C",
+                          "content": "色彩心理学とモノクロームデザイン",
+                          "lineHeight": 1.3,
+                          "fontFamily": "Playfair Display",
+                          "fontSize": 28,
+                          "fontWeight": "600",
+                          "letterSpacing": -0.5,
+                          "fontStyle": "italic"
+                        },
+                        {
+                          "type": "text",
+                          "id": "uYK14",
+                          "name": "a3excerpt",
+                          "fill": "#475569",
+                          "content": "白黒のデザインは、色の制約がありながらも、コントラストとタイポグラフィの力で強力なメッセージを伝えることができます。モノクロームの美学は時代を超えて愛され続けています。",
+                          "lineHeight": 1.7,
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "brzwl",
+                          "name": "a3meta",
+                          "gap": 16,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NQs4w",
+                              "name": "a3read",
+                              "fill": "#888888",
+                              "content": "6分で読めます",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "e24CF",
+                              "name": "badge3",
+                              "cornerRadius": 100,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "yMlDm",
+                                  "name": "a3cat",
+                                  "fill": "#FFFFFF",
+                                  "content": "デザイン",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "600",
+                                  "letterSpacing": 1
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bkVrp",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#1a1a1a",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": 56,
+          "children": [
+            {
+              "type": "frame",
+              "id": "oAGmb",
+              "name": "footNav",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "JpPiT",
+                  "name": "fHome",
+                  "fill": "#FFFFFF",
+                  "content": "ホーム",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "VfgrI",
+                  "name": "fSep1",
+                  "fill": "#666666",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "5o3nC",
+                  "name": "fCat",
+                  "fill": "#FFFFFF",
+                  "content": "カテゴリー",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "iJkKk",
+                  "name": "fSep2",
+                  "fill": "#666666",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "l4Cd9",
+                  "name": "fAbout",
+                  "fill": "#FFFFFF",
+                  "content": "About",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "calsj",
+              "name": "fCopy",
+              "fill": "#9ca3af",
+              "content": "© 2026 STORIES. All rights reserved.",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "c1K3G",
+      "x": 2500,
+      "y": 0,
+      "name": "Article Detail",
+      "width": 1440,
+      "height": 4000,
+      "fill": "#FAFAFA",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "q8Th8",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 80,
+          "fill": "#FFFFFF",
+          "padding": [
+            0,
+            56
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "LTov8",
+              "name": "dLogo",
+              "fill": "#000000",
+              "content": "STORIES",
+              "fontFamily": "Playfair Display",
+              "fontSize": 24,
+              "fontWeight": "600",
+              "fontStyle": "italic"
+            },
+            {
+              "type": "frame",
+              "id": "3nZk7",
+              "name": "dSpacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "FqDZJ",
+              "name": "dNav",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "tyFOa",
+                  "name": "dNavHome",
+                  "fill": "#000000",
+                  "content": "ホーム",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "N4Gxb",
+                  "name": "dNavSep1",
+                  "fill": "#CCCCCC",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "a69eY",
+                  "name": "dNavCat",
+                  "fill": "#666666",
+                  "content": "カテゴリー",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "mlbP3",
+                  "name": "dNavSep2",
+                  "fill": "#CCCCCC",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "pbiwU",
+                  "name": "dNavAbout",
+                  "fill": "#666666",
+                  "content": "About",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fpBlM",
+          "name": "Article Hero",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            80,
+            240,
+            64,
+            240
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "fnnrd",
+              "name": "breadcrumb",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "d13YZ",
+                  "name": "bcHome",
+                  "fill": "#888888",
+                  "content": "ホーム",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                },
+                {
+                  "type": "text",
+                  "id": "tn7pX",
+                  "name": "bcSep1",
+                  "fill": "#CCCCCC",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "o6Tb3",
+                  "name": "bcCat",
+                  "fill": "#888888",
+                  "content": "デザイン",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uvFKl",
+              "name": "articleMeta",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sY5lN",
+                  "name": "metaDate",
+                  "fill": "#888888",
+                  "content": "2026年1月29日",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                },
+                {
+                  "type": "text",
+                  "id": "1rVmf",
+                  "name": "metaSep2",
+                  "fill": "#CCCCCC",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "Y8Jio",
+                  "name": "metaRead",
+                  "fill": "#888888",
+                  "content": "8分で読めます",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                },
+                {
+                  "type": "frame",
+                  "id": "wYKJO",
+                  "name": "catBadge",
+                  "cornerRadius": 100,
+                  "padding": [
+                    6,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jSJEF",
+                      "name": "metaCat",
+                      "fill": "#FFFFFF",
+                      "content": "デザイン",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "6LJs6",
+              "name": "articleTitle",
+              "fill": "#0A0F1C",
+              "content": "タイポグラフィの力：\n読みやすさがもたらす\n深い理解",
+              "lineHeight": 1.2,
+              "fontFamily": "Playfair Display",
+              "fontSize": 56,
+              "fontWeight": "600",
+              "letterSpacing": -2,
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "W5ZuU",
+          "name": "Article Content",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            64,
+            360,
+            0,
+            360
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "9Ty0n",
+              "name": "intro",
+              "fill": "#1E293B",
+              "textGrowth": "fixed-width-height",
+              "width": "fill_container",
+              "height": 125,
+              "content": "美しいタイポグラフィは単なる装飾ではありません。適切なフォント選択、行間、文字間隔は、読者の理解を深め、コンテンツへの没入を促進します。本記事では、Webデザインにおけるタイポグラフィの基本原則と、読みやすさを最大化するための実践的なテクニックを解説します。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "NhrO9",
+              "name": "h2_1",
+              "fill": "#0A0F1C",
+              "content": "タイポグラフィの基本原則",
+              "lineHeight": 1.3,
+              "fontFamily": "Playfair Display",
+              "fontSize": 36,
+              "fontWeight": "600",
+              "letterSpacing": -1,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "text",
+              "id": "cTZHK",
+              "name": "para1",
+              "fill": "#475569",
+              "textGrowth": "fixed-width-height",
+              "width": "fill_container",
+              "height": 102,
+              "content": "タイポグラフィは、視覚的なコミュニケーションの中核を成す要素です。文字の形状、サイズ、配置、色彩が組み合わさることで、情報が効果的に伝達されます。読みやすいタイポグラフィを実現するためには、以下の要素を考慮する必要があります。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "IupEw",
+              "name": "h3_1",
+              "fill": "#0A0F1C",
+              "content": "1. フォントファミリーの選択",
+              "lineHeight": 1.4,
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "600",
+              "letterSpacing": -0.3
+            },
+            {
+              "type": "text",
+              "id": "qYpMq",
+              "name": "para2",
+              "fill": "#475569",
+              "textGrowth": "fixed-width-height",
+              "width": "fill_container",
+              "height": 102,
+              "content": "セリフ体とサンセリフ体の特性を理解し、コンテンツの性質に応じて適切に選択することが重要です。長文のブログ記事では、本文にはサンセリフ体を使用し、見出しにはセリフ体のイタリック体を使用することで、視覚的な階層と読みやすさを両立できます。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "HH54n",
+              "name": "h3_2",
+              "fill": "#000000",
+              "content": "2. 行間と文字間隔",
+              "lineHeight": 1.4,
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "600",
+              "letterSpacing": -0.3
+            },
+            {
+              "type": "text",
+              "id": "c8C9h",
+              "name": "para3",
+              "fill": "#333333",
+              "textGrowth": "fixed-width-height",
+              "width": 1033,
+              "height": 89,
+              "content": "適切な行間（line-height）は、読者が次の行に移る際の視線の動きをスムーズにします。一般的に、本文では1.5〜1.8の行間が推奨されます。また、文字間隔（letter-spacing）を微調整することで、テキストの密度を調整し、読みやすさを向上させることができます。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "ha8UA",
+              "name": "h2_2",
+              "fill": "#000000",
+              "content": "余白の重要性",
+              "lineHeight": 1.3,
+              "fontFamily": "Playfair Display",
+              "fontSize": 36,
+              "fontWeight": "600",
+              "letterSpacing": -1,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "text",
+              "id": "EmlSH",
+              "name": "para4",
+              "fill": "#475569",
+              "content": "余白は、デザインにおいて「何もない空間」ではなく、積極的な役割を果たす要素です。適切な余白は、コンテンツに呼吸する余地を与え、読者の集中力を維持します。特に、段落間の余白や、見出しと本文の間の余白は、視覚的な休息点として機能します。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "5pAkN",
+              "name": "quote",
+              "width": "fill_container",
+              "fill": "#F8F9FA",
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                32,
+                48
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "seN7Y",
+                  "name": "quoteText",
+                  "fill": "#0A0F1C",
+                  "content": "「デザインとは、情報を美しく整理し、誰もが理解できる形で提示する技術である」",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 24,
+                  "fontWeight": "500",
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "text",
+                  "id": "pDAZZ",
+                  "name": "quoteAuthor",
+                  "fill": "#64748B",
+                  "content": "— エドワード・タフト",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "8xKBg",
+              "name": "h2_3",
+              "fill": "#0A0F1C",
+              "content": "モノクロームの美学",
+              "lineHeight": 1.3,
+              "fontFamily": "Playfair Display",
+              "fontSize": 36,
+              "fontWeight": "600",
+              "letterSpacing": -1,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "text",
+              "id": "vSid9",
+              "name": "para5",
+              "fill": "#475569",
+              "content": "白と黒を基調としたモノクロームデザインは、色彩による気晴らしを排除し、コンテンツそのものに読者の注意を集中させます。グレーのトーンを効果的に使用することで、視覚的な階層を作り出し、情報の優先順位を明確に伝えることができます。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "Qrzo0",
+              "name": "para6",
+              "fill": "#475569",
+              "content": "このアプローチは、時代を超えた普遍的な美しさを持ち、トレンドに左右されない洗練されたデザインを実現します。読みやすさを追求するブログサービスにとって、モノクロームは理想的な選択肢と言えるでしょう。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "8q6ck",
+              "name": "accentLine1",
+              "width": 48,
+              "height": 4,
+              "cornerRadius": 2
+            },
+            {
+              "type": "frame",
+              "id": "gzSn5",
+              "name": "accentLine2",
+              "width": 48,
+              "height": 4,
+              "cornerRadius": 2
+            },
+            {
+              "type": "frame",
+              "id": "E1VI7",
+              "name": "accentLine3",
+              "width": 48,
+              "height": 4,
+              "cornerRadius": 2
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mmRPN",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#1a1a1a",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            80,
+            56,
+            56,
+            56
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "0e2zn",
+              "name": "fDivider",
+              "width": "fill_container",
+              "height": 1,
+              "fill": "#333333"
+            },
+            {
+              "type": "frame",
+              "id": "fbplS",
+              "name": "fNav2",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "1icZ9",
+                  "name": "fHome2",
+                  "fill": "#FFFFFF",
+                  "content": "ホーム",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "GN3BB",
+                  "name": "fSep3",
+                  "fill": "#666666",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "8aePd",
+                  "name": "fCat2",
+                  "fill": "#FFFFFF",
+                  "content": "カテゴリー",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "3ha8v",
+                  "name": "fSep4",
+                  "fill": "#666666",
+                  "content": "/",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "300"
+                },
+                {
+                  "type": "text",
+                  "id": "46tfH",
+                  "name": "fAbout2",
+                  "fill": "#FFFFFF",
+                  "content": "About",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "gMORH",
+              "name": "fCopy2",
+              "fill": "#9ca3af",
+              "content": "© 2026 STORIES. All rights reserved.",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Pdkzr",
+      "x": 4100,
+      "y": 0,
+      "name": "Mobile Blog Home",
+      "width": 375,
+      "height": 2400,
+      "fill": "#FAFAFA",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "p4gRh",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 60,
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "S9Du0",
+              "name": "mLogo",
+              "fill": "#0A0F1C",
+              "content": "STORIES",
+              "fontFamily": "Playfair Display",
+              "fontSize": 20,
+              "fontWeight": "600",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AFsFQ",
+          "name": "Hero",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            48,
+            20,
+            40,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "U8IoP",
+              "name": "mHeroTitle",
+              "fill": "#0A0F1C",
+              "content": "読みやすさを\n追求したブログ",
+              "lineHeight": 1.2,
+              "fontFamily": "Playfair Display",
+              "fontSize": 40,
+              "fontWeight": "600",
+              "letterSpacing": -1.5,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "text",
+              "id": "2FeMJ",
+              "name": "mHeroDesc",
+              "fill": "#64748B",
+              "content": "シンプルで美しいタイポグラフィが、あなたの思考を深める読書体験を提供します",
+              "lineHeight": 1.6,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "EJU2v",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            32,
+            20,
+            48,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "VkPx4",
+              "name": "mSectionHead",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Jti80",
+                  "name": "mSectionTitle",
+                  "fill": "#1E293B",
+                  "content": "最新の記事",
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 28,
+                  "fontWeight": "600",
+                  "letterSpacing": -0.5,
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "frame",
+                  "id": "sGReK",
+                  "name": "mSectionLine",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#E2E8F0"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cGRms",
+              "name": "mArticles",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "3vHmh",
+                  "name": "mCard1",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "EdqB6",
+                      "name": "mDate1",
+                      "fill": "#64748B",
+                      "content": "2026年1月28日",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "pZMJS",
+                      "name": "mTitle1",
+                      "fill": "#0A0F1C",
+                      "content": "タイポグラフィの力：\n読みやすさがもたらす深い理解",
+                      "lineHeight": 1.3,
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 24,
+                      "fontWeight": "600",
+                      "letterSpacing": -0.5,
+                      "fontStyle": "italic"
+                    },
+                    {
+                      "type": "text",
+                      "id": "SYv4P",
+                      "name": "mExcerpt1",
+                      "fill": "#475569",
+                      "content": "美しいタイポグラフィは単なる装飾ではありません。適切なフォント選択、行間、文字間隔は、読者の理解を深め、コンテンツへの没入を促進します。",
+                      "lineHeight": 1.7,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QBcZU",
+                      "name": "mMeta1",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jZ8V4",
+                          "name": "mCatBadge1",
+                          "cornerRadius": 100,
+                          "padding": [
+                            6,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "KakjD",
+                              "name": "mCatText1",
+                              "fill": "#FFFFFF",
+                              "content": "デザイン",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "xwMf1",
+                          "name": "mRead1",
+                          "fill": "#64748B",
+                          "content": "6分で読めます",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal",
+                          "letterSpacing": 0.5
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FpFXs",
+                  "name": "mCard2",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tXk9r",
+                      "name": "mDate2",
+                      "fill": "#64748B",
+                      "content": "2026年1月26日",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "NzqwK",
+                      "name": "mTitle2",
+                      "fill": "#0A0F1C",
+                      "content": "余白の美学：ミニマルデザインが生む集中力",
+                      "lineHeight": 1.3,
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 24,
+                      "fontWeight": "600",
+                      "letterSpacing": -0.5,
+                      "fontStyle": "italic"
+                    },
+                    {
+                      "type": "text",
+                      "id": "cYe65",
+                      "name": "mExcerpt2",
+                      "fill": "#475569",
+                      "content": "情報過多の時代において、余白は読者の集中力を保つ重要な要素です。過度な装飾を排除し、本質的なコンテンツに焦点を当てることで、読者はより深くメッセージを受け取ることができます。",
+                      "lineHeight": 1.7,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "eCcpl",
+                      "name": "mMeta2",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Fbcqt",
+                          "name": "mCatBadge2",
+                          "cornerRadius": 100,
+                          "padding": [
+                            6,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "4dSLR",
+                              "name": "mCatText2",
+                              "fill": "#FFFFFF",
+                              "content": "執筆",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "BS4W2",
+                          "name": "mRead2",
+                          "fill": "#64748B",
+                          "content": "4分で読めます",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal",
+                          "letterSpacing": 0.5
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PbaJ6",
+                  "name": "mCard3",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "4WDF7",
+                      "name": "mDate3",
+                      "fill": "#64748B",
+                      "content": "2026年1月25日",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "GKyi5",
+                      "name": "mTitle3",
+                      "fill": "#0A0F1C",
+                      "content": "色彩心理学とモノクロームデザイン",
+                      "lineHeight": 1.3,
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 24,
+                      "fontWeight": "600",
+                      "letterSpacing": -0.5,
+                      "fontStyle": "italic"
+                    },
+                    {
+                      "type": "text",
+                      "id": "9CSJd",
+                      "name": "mExcerpt3",
+                      "fill": "#475569",
+                      "content": "白黒のデザインは、色の制約がありながらも、コントラストとタイポグラフィの力で強力なメッセージを伝えることができます。",
+                      "lineHeight": 1.7,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UnBQt",
+                      "name": "mMeta3",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "0M8mM",
+                          "name": "mCatBadge3",
+                          "cornerRadius": 100,
+                          "padding": [
+                            6,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ITDfm",
+                              "name": "mCatText3",
+                              "fill": "#FFFFFF",
+                              "content": "デザイン",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "4HPML",
+                          "name": "mRead3",
+                          "fill": "#64748B",
+                          "content": "6分で読めます",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal",
+                          "letterSpacing": 0.5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Nwq8J",
+          "name": "mFooter",
+          "width": "fill_container",
+          "fill": "#1a1a1a",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            48,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "pRet2",
+              "name": "mFooterText",
+              "fill": "#9ca3af",
+              "content": "© 2026 STORIES. All rights reserved.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dbJAJ",
+      "x": 4600,
+      "y": 0,
+      "name": "Mobile Article Detail",
+      "width": 375,
+      "height": 3200,
+      "fill": "#FAFAFA",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "94lFo",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 60,
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "HZ4bN",
+              "name": "maLogo",
+              "fill": "#0A0F1C",
+              "content": "STORIES",
+              "fontFamily": "Playfair Display",
+              "fontSize": 20,
+              "fontWeight": "600",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kSQgH",
+          "name": "Hero",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            40,
+            20,
+            32,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "x5KBC",
+              "name": "maBreadcrumb",
+              "fill": "#64748B",
+              "content": "ホーム / デザイン",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 0.5
+            },
+            {
+              "type": "text",
+              "id": "sjbs9",
+              "name": "maTitle",
+              "fill": "#0A0F1C",
+              "content": "タイポグラフィの力：\n読みやすさがもたらす\n深い理解",
+              "lineHeight": 1.2,
+              "fontFamily": "Playfair Display",
+              "fontSize": 36,
+              "fontWeight": "600",
+              "letterSpacing": -1.5,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "frame",
+              "id": "3WL97",
+              "name": "maMeta",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ntPCF",
+                  "name": "maCatBadge",
+                  "cornerRadius": 100,
+                  "padding": [
+                    6,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pYKle",
+                      "name": "maCatText",
+                      "fill": "#FFFFFF",
+                      "content": "デザイン",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Y4rbf",
+                  "name": "maDate",
+                  "fill": "#64748B",
+                  "content": "2026-01-28",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                },
+                {
+                  "type": "text",
+                  "id": "VtzGC",
+                  "name": "maRead",
+                  "fill": "#64748B",
+                  "content": "6分",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tg1u2",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            32,
+            20,
+            48,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "MCr6G",
+              "name": "maIntro",
+              "fill": "#1E293B",
+              "content": "美しいタイポグラフィは単なる装飾ではありません。適切なフォント選択、行間、文字間隔は、読者の理解を深め、コンテンツへの没入を促進します。本記事では、Webデザインにおけるタイポグラフィの基本原則と、読みやすさを最大化するための実践的なテクニックを解説します。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "VZsHF",
+              "name": "maAccent1",
+              "width": 48,
+              "height": 4,
+              "cornerRadius": 2
+            },
+            {
+              "type": "text",
+              "id": "nUGHF",
+              "name": "maH2_1",
+              "fill": "#0A0F1C",
+              "content": "タイポグラフィの基本原則",
+              "lineHeight": 1.3,
+              "fontFamily": "Playfair Display",
+              "fontSize": 28,
+              "fontWeight": "600",
+              "letterSpacing": -0.8,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "text",
+              "id": "MXsMT",
+              "name": "maPara1",
+              "fill": "#475569",
+              "content": "読みやすいタイポグラフィの基本は、適切なフォントサイズ、行間（line-height）、文字間隔（letter-spacing）のバランスです。本文には16-18pxが最適とされ、行間は1.5-1.8倍が理想的です。これにより、読者の目の動きがスムーズになり、長時間の読書でも疲れにくくなります。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "efGRy",
+              "name": "maH3_1",
+              "fill": "#1E293B",
+              "content": "フォントの選択",
+              "lineHeight": 1.3,
+              "fontFamily": "Playfair Display",
+              "fontSize": 22,
+              "fontWeight": "600",
+              "letterSpacing": -0.5,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "text",
+              "id": "4kqb2",
+              "name": "maPara2",
+              "fill": "#475569",
+              "content": "セリフ体は伝統的で権威ある印象を与え、サンセリフ体はモダンでクリーンな印象を持ちます。モノスペースフォントは技術的な内容やコード表示に適しています。複数のフォントを組み合わせる場合は、2-3種類に抑え、明確な役割分担を持たせることが重要です。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "9sYRQ",
+              "name": "maQuote",
+              "width": "fill_container",
+              "fill": "#F8F9FA",
+              "cornerRadius": 8,
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eKI9k",
+                  "name": "maQuoteText",
+                  "fill": "#1E293B",
+                  "content": "「良いデザインは見えない。優れたタイポグラフィは読まれることに集中させ、それ自体を主張しない。」",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 18,
+                  "fontWeight": "normal",
+                  "fontStyle": "italic"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xdcAi",
+              "name": "maAccent2",
+              "width": 48,
+              "height": 4,
+              "cornerRadius": 2
+            },
+            {
+              "type": "text",
+              "id": "g0paO",
+              "name": "maH2_2",
+              "fill": "#0A0F1C",
+              "content": "モノクロームの美学",
+              "lineHeight": 1.3,
+              "fontFamily": "Playfair Display",
+              "fontSize": 28,
+              "fontWeight": "600",
+              "letterSpacing": -0.8,
+              "fontStyle": "italic"
+            },
+            {
+              "type": "text",
+              "id": "EWoAg",
+              "name": "maPara3",
+              "fill": "#475569",
+              "content": "白黒のカラーパレットは、タイポグラフィの美しさを最大限に引き出します。色の気を散らす要素がない分、文字の形状、サイズ、配置がより重要になり、デザイナーはこれらの基本要素に集中できます。",
+              "lineHeight": 1.8,
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gjgSv",
+          "name": "maFooter",
+          "width": "fill_container",
+          "fill": "#1a1a1a",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            48,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "DtmPZ",
+              "name": "maFooterText",
+              "fill": "#9ca3af",
+              "content": "© 2026 STORIES. All rights reserved.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
