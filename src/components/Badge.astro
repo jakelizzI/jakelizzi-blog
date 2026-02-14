@@ -1,0 +1,38 @@
+---
+// Gradient pill-shaped badge
+// JetBrains Mono font, 11px, uppercase letter-spacing
+// Gradient options: blue (design), purple (writing)
+
+export interface Props {
+  category: string;
+  variant?: 'blue' | 'purple';
+}
+
+const { category, variant = 'blue' } = Astro.props;
+---
+
+<span class:list={['badge', variant]}>
+  {category}
+</span>
+
+<style>
+  .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: white;
+    text-transform: none;
+  }
+
+  .badge.blue {
+    background: var(--gradient-blue);
+  }
+
+  .badge.purple {
+    background: var(--gradient-purple);
+  }
+</style>

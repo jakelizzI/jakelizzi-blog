@@ -1,0 +1,108 @@
+---
+// Article card component with white background, shadow, and rounded corners
+// Desktop: 12px radius, 20px padding
+// Mobile: same design
+
+import Badge from './Badge.astro';
+
+export interface Props {
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  category: string;
+  categoryVariant?: 'blue' | 'purple';
+  href: string;
+}
+
+const { 
+  title, 
+  excerpt, 
+  date, 
+  readTime, 
+  category, 
+  categoryVariant = 'blue',
+  href 
+} = Astro.props;
+---
+
+<article class="card">
+  <a href={href} class="card-link">
+    <div class="card-date">{date}</div>
+    <h3 class="card-title">{title}</h3>
+    <p class="card-excerpt">{excerpt}</p>
+    <div class="card-meta">
+      <Badge category={category} variant={categoryVariant} />
+      <span class="read-time">{readTime}</span>
+    </div>
+  </a>
+</article>
+
+<style>
+  .card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: var(--gap-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-date {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+  }
+
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .card-excerpt {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+  }
+
+  .read-time {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .card-title {
+      font-size: var(--text-xl);
+    }
+  }
+</style>

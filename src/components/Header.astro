@@ -1,0 +1,55 @@
+---
+// Desktop: 80px height, white background with shadow
+// Mobile: 60px height
+// Logo: "STORIES" in Playfair Display italic
+---
+
+<header>
+  <div class="container">
+    <a href="/" class="logo">STORIES</a>
+  </div>
+</header>
+
+<style>
+  header {
+    width: 100%;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    padding: 0 var(--gap-3xl);
+  }
+
+  .logo {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .logo:hover {
+    opacity: 0.7;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .container {
+      height: 60px;
+      padding: 0 var(--gap-lg);
+    }
+
+    .logo {
+      font-size: var(--text-lg);
+    }
+  }
+</style>

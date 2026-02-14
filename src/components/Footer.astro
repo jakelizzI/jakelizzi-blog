@@ -1,0 +1,48 @@
+---
+// Desktop: 56px padding, 14px font
+// Mobile: 48px vertical padding, 20px horizontal, 13px font
+// Background: #1a1a1a
+// Text color: #9ca3af
+---
+
+<footer>
+  <div class="container">
+    <p class="copyright">© 2026 STORIES. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    width: 100%;
+    background: var(--bg-footer);
+    margin-top: auto;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--gap-3xl) var(--gap-3xl);
+    gap: var(--gap-lg);
+  }
+
+  .copyright {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--text-footer);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .container {
+      padding: var(--gap-2xl) var(--gap-lg);
+    }
+
+    .copyright {
+      font-size: var(--text-sm);
+    }
+  }
+</style>
