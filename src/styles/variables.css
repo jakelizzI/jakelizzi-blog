@@ -1,0 +1,81 @@
+:root {
+  /* ============================================
+     Colors - Background
+     ============================================ */
+  --bg-primary: #FAFAFA;
+  --bg-white: #FFFFFF;
+  --bg-light-blue: #EFF6FF;
+  --bg-quote: #F8F9FA;
+  --bg-footer: #1a1a1a;
+  
+  /* ============================================
+     Colors - Text
+     ============================================ */
+  --text-primary: #0A0F1C;
+  --text-secondary: #1E293B;
+  --text-body: #475569;
+  --text-muted: #64748B;
+  --text-footer: #9ca3af;
+  
+  /* ============================================
+     Colors - Gradients
+     ============================================ */
+  --gradient-blue: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  --gradient-purple: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+  --gradient-hero: linear-gradient(180deg, #FFFFFF 0%, #EFF6FF 100%);
+  --gradient-footer: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
+  
+  /* ============================================
+     Typography - Font Families
+     ============================================ */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* ============================================
+     Typography - Font Sizes
+     ============================================ */
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 14px;
+  --text-md: 15px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 20px;
+  --text-3xl: 22px;
+  --text-4xl: 28px;
+  --text-5xl: 36px;
+  --text-6xl: 40px;
+  --text-7xl: 48px;
+  
+  /* ============================================
+     Spacing
+     ============================================ */
+  --gap-xs: 8px;
+  --gap-sm: 12px;
+  --gap-md: 16px;
+  --gap-lg: 24px;
+  --gap-xl: 32px;
+  --gap-2xl: 48px;
+  --gap-3xl: 56px;
+  --gap-4xl: 80px;
+  
+  /* ============================================
+     Border Radius
+     ============================================ */
+  --radius-sm: 2px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 100px;
+  
+  /* ============================================
+     Shadows
+     ============================================ */
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.04);
+  
+  /* ============================================
+     Layout - Breakpoints (for reference)
+     ============================================ */
+  --mobile-max: 375px;
+  --desktop-min: 1024px;
+}
