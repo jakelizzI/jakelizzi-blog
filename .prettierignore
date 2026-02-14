@@ -1,0 +1,6 @@
+# Prettier formatting
+.prettierrc
+.prettierignore
+
+# Editor config
+.editorconfig

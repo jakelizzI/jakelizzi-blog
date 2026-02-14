@@ -3,7 +3,7 @@
 // Desktop: 12px radius, 20px padding
 // Mobile: same design
 
-import Badge from './Badge.astro';
+import Badge from "./Badge.astro";
 
 export interface Props {
   title: string;
@@ -11,19 +11,11 @@ export interface Props {
   date: string;
   readTime: string;
   category: string;
-  categoryVariant?: 'blue' | 'purple';
+  categoryVariant?: "blue" | "purple";
   href: string;
 }
 
-const { 
-  title, 
-  excerpt, 
-  date, 
-  readTime, 
-  category, 
-  categoryVariant = 'blue',
-  href 
-} = Astro.props;
+const { title, excerpt, date, readTime, category, categoryVariant = "blue", href } = Astro.props;
 ---
 
 <article class="card">
@@ -44,7 +36,9 @@ const {
     border-radius: var(--radius-lg);
     padding: var(--gap-lg);
     box-shadow: var(--shadow-sm);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .card:hover {

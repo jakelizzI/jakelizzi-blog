@@ -5,13 +5,13 @@
 
 export interface Props {
   category: string;
-  variant?: 'blue' | 'purple';
+  variant?: "blue" | "purple";
 }
 
-const { category, variant = 'blue' } = Astro.props;
+const { category, variant = "blue" } = Astro.props;
 ---
 
-<span class:list={['badge', variant]}>
+<span class:list={["badge", variant]}>
   {category}
 </span>
 

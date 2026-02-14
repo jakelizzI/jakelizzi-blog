@@ -1,6 +1,12 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ArticleCard from '../components/ArticleCard.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+// Get all articles and sort by date (newest first)
+const articles = (await getCollection("articles")).sort(
+  (a: CollectionEntry<"articles">, b: CollectionEntry<"articles">) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 ---
 
 <BaseLayout title="STORIES - ブログホーム">
@@ -8,9 +14,7 @@ import ArticleCard from '../components/ArticleCard.astro';
   <section class="hero">
     <div class="container">
       <h1 class="hero-title">読みやすさを<br />追求したブログ</h1>
-      <p class="hero-description">
-        シンプルで美しいタイポグラフィが、あなたの思考を深める読書体験を提供します
-      </p>
+      <p class="hero-description">シンプルで美しいタイポグラフィが、あなたの思考を深める読書体験を提供します</p>
     </div>
   </section>
 
@@ -21,35 +25,18 @@ import ArticleCard from '../components/ArticleCard.astro';
         <h2 class="section-title">最新の記事</h2>
         <div class="section-line"></div>
       </header>
-      
+
       <div class="articles-grid">
-        <ArticleCard
-          title="タイポグラフィの力：読みやすさがもたらす深い理解"
-          excerpt="美しいタイポグラフィは単なる装飾ではありません。適切なフォント選択、行間、文字間隔は、読者の理解を深め、コンテンツへの没入を促進します。"
-          date="2026年1月28日"
-          readTime="6分で読めます"
-          category="デザイン"
-          categoryVariant="blue"
-          href="/articles/typography"
-        />
-        <ArticleCard
-          title="余白の美学：ミニマルデザインが生む集中力"
-          excerpt="情報過多の時代において、余白は読者の集中力を保つ重要な要素です。過度な装飾を排除し、本質的なコンテンツに焦点を当てることで、読者はより深くメッセージを受け取ることができます。"
-          date="2026年1月26日"
-          readTime="4分で読めます"
-          category="執筆"
-          categoryVariant="purple"
-          href="/articles/whitespace"
-        />
-        <ArticleCard
-          title="色彩心理学とモノクロームデザイン"
-          excerpt="白黒のデザインは、色の制約がありながらも、コントラストとタイポグラフィの力で強力なメッセージを伝えることができます。"
-          date="2026年1月25日"
-          readTime="6分で読めます"
-          category="デザイン"
-          categoryVariant="blue"
-          href="/articles/monochrome"
-        />
+        {
+          /* prettier-ignore */
+          articles.map((article: CollectionEntry< "articles">) => (
+          <ArticleCard title={article.data.title} excerpt={article.data.description} date={article.data.date.toLocaleDateString("ja-JP", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })} readTime={article.data.readTime} category={article.data.category} categoryVariant={article.data.category === "デザイン" ? "blue" : "purple"} href={`/articles/${article.slug}`} />
+          ))
+        }
       </div>
     </div>
   </section>
@@ -107,7 +94,7 @@ import ArticleCard from '../components/ArticleCard.astro';
   .section-line {
     width: 100%;
     height: 1px;
-    background: #E2E8F0;
+    background: #e2e8f0;
   }
 
   .articles-grid {

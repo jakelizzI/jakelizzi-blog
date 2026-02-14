@@ -2,36 +2,36 @@
   /* ============================================
      Colors - Background
      ============================================ */
-  --bg-primary: #FAFAFA;
-  --bg-white: #FFFFFF;
-  --bg-light-blue: #EFF6FF;
-  --bg-quote: #F8F9FA;
+  --bg-primary: #fafafa;
+  --bg-white: #ffffff;
+  --bg-light-blue: #eff6ff;
+  --bg-quote: #f8f9fa;
   --bg-footer: #1a1a1a;
-  
+
   /* ============================================
      Colors - Text
      ============================================ */
-  --text-primary: #0A0F1C;
-  --text-secondary: #1E293B;
+  --text-primary: #0a0f1c;
+  --text-secondary: #1e293b;
   --text-body: #475569;
-  --text-muted: #64748B;
+  --text-muted: #64748b;
   --text-footer: #9ca3af;
-  
+
   /* ============================================
      Colors - Gradients
      ============================================ */
-  --gradient-blue: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
-  --gradient-purple: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
-  --gradient-hero: linear-gradient(180deg, #FFFFFF 0%, #EFF6FF 100%);
-  --gradient-footer: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
-  
+  --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+  --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  --gradient-hero: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+  --gradient-footer: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+
   /* ============================================
      Typography - Font Families
      ============================================ */
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
   /* ============================================
      Typography - Font Sizes
      ============================================ */
@@ -47,7 +47,7 @@
   --text-5xl: 36px;
   --text-6xl: 40px;
   --text-7xl: 48px;
-  
+
   /* ============================================
      Spacing
      ============================================ */
@@ -59,7 +59,7 @@
   --gap-2xl: 48px;
   --gap-3xl: 56px;
   --gap-4xl: 80px;
-  
+
   /* ============================================
      Border Radius
      ============================================ */
@@ -67,12 +67,12 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-full: 100px;
-  
+
   /* ============================================
      Shadows
      ============================================ */
   --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.04);
-  
+
   /* ============================================
      Layout - Breakpoints (for reference)
      ============================================ */
