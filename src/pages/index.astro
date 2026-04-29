@@ -1,12 +1,24 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "../components/ArticleCard.astro";
-import { articles as articlesTable } from "../db/schema";
-import { desc } from "drizzle-orm";
+import { articles as articlesTable, categories as categoriesTable } from "../db/schema";
+import { desc, eq } from "drizzle-orm";
 
 // Get all articles and sort by date (newest first)
 const db = Astro.locals.db;
-const articles = await db.select().from(articlesTable).orderBy(desc(articlesTable.date));
+const articles = await db
+  .select({
+    id: articlesTable.id,
+    slug: articlesTable.slug,
+    title: articlesTable.title,
+    description: articlesTable.description,
+    date: articlesTable.date,
+    readTime: articlesTable.readTime,
+    categoryName: categoriesTable.name,
+  })
+  .from(articlesTable)
+  .innerJoin(categoriesTable, eq(articlesTable.categoryId, categoriesTable.id))
+  .orderBy(desc(articlesTable.date));
 ---
 
 <BaseLayout title="jakelizzi - 気ままなブログ">
@@ -34,7 +46,7 @@ const articles = await db.select().from(articlesTable).orderBy(desc(articlesTabl
               year: "numeric",
               month: "long",
               day: "numeric",
-            })} readTime={article.readTime} category={article.category} categoryVariant={article.category === "デザイン" ? "blue" : "purple"} href={`/articles/${article.slug}`} />
+            })} readTime={`${article.readTime}分で読めます`} category={article.categoryName} categoryVariant={article.categoryName === "デザイン" ? "blue" : "purple"} href={`/articles/${article.slug}`} />
           ))
         }
       </div>

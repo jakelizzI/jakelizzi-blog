@@ -1,6 +1,6 @@
 ---
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
-import { articles as articlesTable } from "../../db/schema";
+import { articles as articlesTable, categories as categoriesTable } from "../../db/schema";
 import { eq } from "drizzle-orm";
 import { marked } from "marked";
 
@@ -10,12 +10,20 @@ if (!slug) {
 }
 
 const db = Astro.locals.db;
-const [article] = await db.select().from(articlesTable).where(eq(articlesTable.slug, slug));
+const [result] = await db
+  .select({
+    article: articlesTable,
+    category: categoriesTable
+  })
+  .from(articlesTable)
+  .innerJoin(categoriesTable, eq(articlesTable.categoryId, categoriesTable.id))
+  .where(eq(articlesTable.slug, slug));
 
-if (!article) {
+if (!result) {
   return Astro.redirect('/404');
 }
 
+const { article, category } = result;
 const htmlContent = await marked.parse(article.content);
 ---
 
@@ -23,8 +31,8 @@ const htmlContent = await marked.parse(article.content);
   title={article.title}
   description={article.description}
   date={new Date(article.date)}
-  category={article.category}
-  readTime={article.readTime}
+  category={category.name}
+  readTime={`${article.readTime}分で読めます`}
 >
   <div class="prose" set:html={htmlContent} />
 </ArticleLayout>
