@@ -9,11 +9,14 @@ const db = drizzle(client);
 
 async function inspect() {
   const allArticles = await db.select().from(articles);
-  console.log("Articles:", allArticles.map(a => ({
-    id: a.id,
-    category: a.category,
-    readTime: a.readTime
-  })));
+  console.log(
+    "Articles:",
+    allArticles.map((a) => ({
+      id: a.id,
+      category: a.category,
+      readTime: a.readTime,
+    }))
+  );
   process.exit(0);
 }
 inspect();

@@ -6,21 +6,22 @@ import { marked } from "marked";
 
 const { slug } = Astro.params;
 if (!slug) {
-  return Astro.redirect('/404');
+  return Astro.redirect("/404");
 }
 
 const db = Astro.locals.db;
-const [result] = await db
+const result = await db
   .select({
     article: articlesTable,
-    category: categoriesTable
+    category: categoriesTable,
   })
   .from(articlesTable)
   .innerJoin(categoriesTable, eq(articlesTable.categoryId, categoriesTable.id))
-  .where(eq(articlesTable.slug, slug));
+  .where(eq(articlesTable.slug, slug))
+  .get();
 
 if (!result) {
-  return Astro.redirect('/404');
+  return Astro.redirect("/404");
 }
 
 const { article, category } = result;
