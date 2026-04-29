@@ -1,30 +1,30 @@
 ---
-// Generate static paths for all articles
-import { getCollection, type CollectionEntry } from "astro:content";
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { articles as articlesTable } from "../../db/schema";
+import { eq } from "drizzle-orm";
+import { marked } from "marked";
 
-export async function getStaticPaths() {
-  const articles = await getCollection("articles");
-  return articles.map((article) => ({
-    params: { slug: article.slug },
-    props: { article },
-  }));
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect('/404');
 }
 
-interface Props {
-  article: CollectionEntry<"articles">;
+const db = Astro.locals.db;
+const [article] = await db.select().from(articlesTable).where(eq(articlesTable.slug, slug));
+
+if (!article) {
+  return Astro.redirect('/404');
 }
 
-const { article } = Astro.props;
-const { Content } = await article.render();
+const htmlContent = await marked.parse(article.content);
 ---
 
 <ArticleLayout
-  title={article.data.title}
-  description={article.data.description}
-  date={article.data.date}
-  category={article.data.category}
-  readTime={article.data.readTime}
+  title={article.title}
+  description={article.description}
+  date={new Date(article.date)}
+  category={article.category}
+  readTime={article.readTime}
 >
-  <Content />
+  <div class="prose" set:html={htmlContent} />
 </ArticleLayout>

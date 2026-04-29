@@ -11,9 +11,16 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "@astrojs/cloudflare": "12.2.0",
+    "@libsql/client": "^0.17.3",
+    "astro": "5.4.2",
+    "drizzle-orm": "^0.45.2",
+    "gray-matter": "^4.0.3",
+    "marked": "^18.0.2"
   },
   "devDependencies": {
+    "@types/marked": "^6.0.0",
+    "drizzle-kit": "^0.31.10",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1"
   }
