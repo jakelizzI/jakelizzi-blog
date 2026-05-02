@@ -1,7 +1,7 @@
 ---
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
 import { articles as articlesTable, categories as categoriesTable } from "../../db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { marked } from "marked";
 
 const { slug } = Astro.params;
@@ -17,7 +17,7 @@ const result = await db
   })
   .from(articlesTable)
   .innerJoin(categoriesTable, eq(articlesTable.categoryId, categoriesTable.id))
-  .where(eq(articlesTable.slug, slug))
+  .where(and(eq(articlesTable.slug, slug), eq(articlesTable.status, "published")))
   .get();
 
 if (!result) {

@@ -18,6 +18,7 @@ const articles = await db
   })
   .from(articlesTable)
   .innerJoin(categoriesTable, eq(articlesTable.categoryId, categoriesTable.id))
+  .where(eq(articlesTable.status, "published"))
   .orderBy(desc(articlesTable.date));
 ---
 

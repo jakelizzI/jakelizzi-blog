@@ -1,0 +1,320 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { categories as categoriesTable } from "../../db/schema";
+
+const db = Astro.locals.db;
+const categories = await db.select().from(categoriesTable);
+---
+
+<BaseLayout title="新規記事作成">
+  <div class="admin-container-wide">
+    <div class="admin-header">
+      <h1>新規記事作成</h1>
+      <a href="/admin" class="btn btn-secondary">戻る</a>
+    </div>
+
+    <form action="/admin/api/articles" method="POST" class="article-form">
+      <input type="hidden" name="intent" value="create" />
+      
+      <div class="form-group">
+        <label for="id">記事ID (URLの末尾などで使用、例: my-new-post)</label>
+        <input type="text" id="id" name="id" required />
+      </div>
+
+      <div class="form-group">
+        <label for="slug">スラッグ (通常はIDと同じでOK)</label>
+        <input type="text" id="slug" name="slug" />
+      </div>
+
+      <div class="form-group">
+        <label for="title">タイトル</label>
+        <input type="text" id="title" name="title" required />
+      </div>
+
+      <div class="form-group">
+        <label for="description">抜粋 / 説明 (SEO用)</label>
+        <textarea id="description" name="description" rows="3" required></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="categoryId">カテゴリー</label>
+          <select id="categoryId" name="categoryId" required>
+            <option value="">選択してください...</option>
+            {categories.map((cat) => (
+              <option value={cat.id}>{cat.name}</option>
+            ))}
+            <option value="new">+ 新規追加</option>
+          </select>
+          <div id="newCategoryBox" class="new-category-box" style="display: none;">
+            <span class="box-label">新規カテゴリー作成:</span>
+            <input type="text" id="newCategoryName" name="newCategoryName" placeholder="新しいカテゴリ名" />
+            <input type="text" id="newCategorySlug" name="newCategorySlug" placeholder="カテゴリスラッグ (例: design)" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="readTime">読了時間（分）</label>
+          <input type="number" id="readTime" name="readTime" min="1" required />
+        </div>
+      </div>
+
+      <div class="editor-layout">
+        <div class="form-group">
+          <label for="content">本文 (Markdown)</label>
+          <textarea id="content" name="content" rows="20" required class="markdown-editor"></textarea>
+        </div>
+        <div class="form-group">
+          <label>プレビュー</label>
+          <div id="preview" class="prose preview-area"></div>
+        </div>
+      </div>
+
+      <div class="submit-actions">
+        <button type="button" id="btnDraft" class="btn btn-secondary btn-submit">下書き保存</button>
+        <button type="submit" name="status" value="published" class="btn btn-primary btn-submit">公開する</button>
+      </div>
+    </form>
+  </div>
+  
+  <div id="toast" class="toast"></div>
+</BaseLayout>
+
+<style>
+  .admin-container-wide {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .editor-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  @media (max-width: 900px) {
+    .editor-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+  .preview-area {
+    padding: 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #fafafa;
+    min-height: 500px;
+    overflow-y: auto;
+  }
+  .markdown-editor {
+    min-height: 500px;
+    resize: vertical;
+  }
+  .submit-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .article-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .form-row {
+    display: flex;
+    gap: 1rem;
+  }
+  .form-row .form-group {
+    flex: 1;
+  }
+  label {
+    font-weight: 600;
+    color: #1e293b;
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    padding: 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+  }
+  .markdown-editor {
+    font-family: var(--font-mono);
+    line-height: 1.6;
+  }
+  .new-category-box {
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px dashed #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .box-label {
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: #3b82f6;
+    color: white;
+  }
+  .btn-secondary {
+    background: #e2e8f0;
+    color: #1e293b;
+  }
+  .btn-submit {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    flex: 1;
+  }
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #10b981;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+  .toast.show {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  import { marked } from "marked";
+
+  function setupCategorySelect() {
+    const categorySelect = document.getElementById('categoryId');
+    const newCategoryBox = document.getElementById('newCategoryBox');
+    const newCategoryName = document.getElementById('newCategoryName');
+    const newCategorySlug = document.getElementById('newCategorySlug');
+
+    if (categorySelect && newCategoryBox && newCategoryName && newCategorySlug) {
+      categorySelect.addEventListener('change', (e) => {
+        if ((e.target as HTMLSelectElement).value === 'new') {
+          newCategoryBox.style.display = 'flex';
+          (newCategoryName as HTMLInputElement).required = true;
+          (newCategorySlug as HTMLInputElement).required = true;
+        } else {
+          newCategoryBox.style.display = 'none';
+          (newCategoryName as HTMLInputElement).required = false;
+          (newCategorySlug as HTMLInputElement).required = false;
+          (newCategoryName as HTMLInputElement).value = '';
+          (newCategorySlug as HTMLInputElement).value = '';
+        }
+      });
+    }
+  }
+
+  function setupPreview() {
+    const contentInput = document.getElementById('content') as HTMLTextAreaElement;
+    const previewArea = document.getElementById('preview');
+
+    if (contentInput && previewArea) {
+      const updatePreview = async () => {
+        previewArea.innerHTML = await marked.parse(contentInput.value);
+      };
+      contentInput.addEventListener('input', updatePreview);
+      updatePreview(); // initial render
+    }
+  }
+
+  function setupAjaxDraft() {
+    const btnDraft = document.getElementById('btnDraft');
+    const form = document.querySelector('.article-form') as HTMLFormElement;
+    const toast = document.getElementById('toast');
+
+    function showToast(message: string, isError = false) {
+      if (!toast) return;
+      toast.textContent = message;
+      toast.style.background = isError ? '#ef4444' : '#10b981';
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    if (btnDraft && form) {
+      // Remove any existing listeners if page-load re-runs
+      const newBtnDraft = btnDraft.cloneNode(true);
+      btnDraft.parentNode?.replaceChild(newBtnDraft, btnDraft);
+      
+      newBtnDraft.addEventListener('click', async () => {
+        if (!form.reportValidity()) return;
+
+        const formData = new FormData(form);
+        formData.append('status', 'draft');
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: formData
+          });
+
+          if (res.ok) {
+            showToast('下書き保存しました');
+            const intentInput = document.querySelector('input[name="intent"]') as HTMLInputElement;
+            if (intentInput && intentInput.value === 'create') {
+              intentInput.value = 'update';
+              const idInput = document.getElementById('id') as HTMLInputElement;
+              if (idInput) {
+                idInput.readOnly = true;
+                idInput.style.backgroundColor = '#f1f5f9';
+                idInput.style.color = '#64748b';
+              }
+            }
+          } else {
+            showToast('保存に失敗しました', true);
+          }
+        } catch(err) {
+          showToast('エラーが発生しました', true);
+        }
+      });
+    }
+  }
+
+  // 初回ロード時
+  setupCategorySelect();
+  setupPreview();
+  setupAjaxDraft();
+  // View Transitionsが有効な場合
+  document.addEventListener('astro:page-load', () => {
+    setupCategorySelect();
+    setupPreview();
+    setupAjaxDraft();
+  });
+</script>

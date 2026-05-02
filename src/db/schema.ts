@@ -16,5 +16,6 @@ export const articles = sqliteTable("articles", {
     .references(() => categories.id)
     .notNull(),
   readTime: integer("read_time").notNull(),
+  status: text("status").notNull().default("draft"),
   content: text("content").notNull(),
 });

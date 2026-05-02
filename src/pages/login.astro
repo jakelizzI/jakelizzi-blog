@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SignIn } from "auth-astro/components";
+import { getSession } from "auth-astro/server";
+
+const session = await getSession(Astro.request);
+const adminEmail = import.meta.env.ADMIN_EMAIL || process.env.ADMIN_EMAIL;
+
+if (session && session.user?.email === adminEmail) {
+  return Astro.redirect("/admin");
+}
+---
+
+<BaseLayout title="管理者ログイン">
+  <div class="login-container">
+    <div class="login-box">
+      <h1>管理者ログイン</h1>
+      
+      {session && session.user?.email !== adminEmail && (
+        <div class="error-message">
+          <p>アクセス権限がありません。</p>
+          <p>現在のアカウント: {session.user?.email}</p>
+        </div>
+      )}
+
+      <p class="description">ブログの管理を行うにはGoogleアカウントでログインしてください。</p>
+      
+      <SignIn provider="google" class="btn btn-primary">Googleでログイン</SignIn>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+  }
+  .login-box {
+    background: white;
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+  }
+  h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+  }
+  .description {
+    color: var(--text-body);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  .error-message {
+    background: #fee2e2;
+    color: #ef4444;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+  .error-message p {
+    margin: 0.25rem 0;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    font-size: 1rem;
+  }
+  .btn-primary {
+    background: #3b82f6;
+    color: white;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover {
+    background: #2563eb;
+  }
+</style>
