@@ -273,7 +273,7 @@ const categories = await db.select().from(categoriesTable);
 
     if (contentInput && previewArea) {
       const updatePreview = async () => {
-        previewArea.innerHTML = await marked.parse(contentInput.value);
+        previewArea.innerHTML = await marked.parse(contentInput.value, { breaks: true });
       };
       
       const autoResize = () => {
