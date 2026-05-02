@@ -67,6 +67,13 @@ export const POST: APIRoute = async (context) => {
         content,
       }).where(eq(articlesTable.id, id));
     }
+    if (formData.get("isAjax") === "true") {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
     return context.redirect("/admin");
   }
 

@@ -107,3 +107,110 @@ a:hover {
     font-size: var(--text-4xl);
   }
 }
+
+/* ============================================
+   Prose (Markdown Content)
+   ============================================ */
+.prose h2 {
+  font-family: var(--font-serif);
+  font-size: var(--text-5xl);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -1px;
+  line-height: 1.3;
+  color: var(--text-primary);
+  margin-top: var(--gap-2xl);
+  margin-bottom: var(--gap-lg);
+  position: relative;
+}
+.prose h2::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 0;
+  width: 48px;
+  height: 4px;
+  background: var(--gradient-blue);
+  border-radius: var(--radius-sm);
+}
+.prose h3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  line-height: 1.4;
+  color: var(--text-primary);
+  margin-top: var(--gap-xl);
+  margin-bottom: var(--gap-md);
+}
+.prose p {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  line-height: 1.8;
+  color: var(--text-body);
+  margin-bottom: var(--gap-xl);
+}
+.prose ul,
+.prose ol {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  line-height: 1.8;
+  color: var(--text-body);
+  margin-bottom: var(--gap-xl);
+  padding-left: var(--gap-xl);
+}
+.prose li {
+  margin-bottom: var(--gap-sm);
+}
+.prose blockquote {
+  background: var(--bg-quote);
+  border-left: 4px solid var(--text-muted);
+  padding: var(--gap-md) var(--gap-xl);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  margin: var(--gap-xl) 0;
+}
+.prose blockquote p {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-body);
+  margin-bottom: var(--gap-sm);
+}
+.prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+.prose code {
+  background: #f1f5f9;
+  color: #e11d48;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+.prose pre {
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-family: var(--font-mono);
+  line-height: 1.5;
+}
+.prose pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.95em;
+}
+
+@media (max-width: 768px) {
+  .prose h2 { font-size: var(--text-4xl); letter-spacing: -0.8px; }
+  .prose h3 { font-size: var(--text-xl); }
+  .prose p, .prose ul, .prose ol { font-size: var(--text-md); }
+  .prose blockquote { padding: var(--gap-md) var(--gap-lg); }
+  .prose blockquote p { font-size: var(--text-md); }
+  .prose pre { padding: 1rem; font-size: 0.9em; }
+}
