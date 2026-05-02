@@ -323,8 +323,17 @@ const categories = await db.select().from(categoriesTable);
       const newBtnDraft = btnDraft.cloneNode(true);
       btnDraft.parentNode?.replaceChild(newBtnDraft, btnDraft);
 
-      newBtnDraft.addEventListener("click", async () => {
-        if (!form.reportValidity()) return;
+      let hasUnsavedChanges = false;
+      form.addEventListener("input", () => {
+        hasUnsavedChanges = true;
+      });
+
+      const saveDraft = async (isAutoSave = false) => {
+        if (!isAutoSave) {
+          if (!form.reportValidity()) return false;
+        } else {
+          if (!form.checkValidity()) return false;
+        }
 
         const formData = new FormData(form);
         formData.append("status", "draft");
@@ -336,14 +345,29 @@ const categories = await db.select().from(categoriesTable);
           });
 
           if (res.ok) {
-            showToast("下書き保存しました");
+            showToast(isAutoSave ? "自動保存しました" : "下書き保存しました");
+            hasUnsavedChanges = false;
+            return true;
           } else {
-            showToast("保存に失敗しました", true);
+            if (!isAutoSave) showToast("保存に失敗しました", true);
+            return false;
           }
         } catch (err) {
-          showToast("エラーが発生しました", true);
+          if (!isAutoSave) showToast("エラーが発生しました", true);
+          return false;
         }
-      });
+      };
+
+      newBtnDraft.addEventListener("click", () => saveDraft(false));
+
+      if ((window as any).autoSaveInterval) {
+        clearInterval((window as any).autoSaveInterval);
+      }
+      (window as any).autoSaveInterval = setInterval(async () => {
+        if (hasUnsavedChanges) {
+          await saveDraft(true);
+        }
+      }, 60000);
     }
   }
 
