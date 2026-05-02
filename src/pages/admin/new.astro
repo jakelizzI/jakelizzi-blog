@@ -103,11 +103,11 @@ const categories = await db.select().from(categoriesTable);
     border-radius: 4px;
     background: #fafafa;
     min-height: 500px;
-    overflow-y: auto;
   }
   .markdown-editor {
     min-height: 500px;
-    resize: vertical;
+    resize: none;
+    overflow-y: hidden;
   }
   .submit-actions {
     display: flex;
@@ -248,8 +248,19 @@ const categories = await db.select().from(categoriesTable);
       const updatePreview = async () => {
         previewArea.innerHTML = await marked.parse(contentInput.value);
       };
-      contentInput.addEventListener('input', updatePreview);
+      
+      const autoResize = () => {
+        contentInput.style.height = 'auto';
+        contentInput.style.height = contentInput.scrollHeight + 'px';
+      };
+
+      contentInput.addEventListener('input', () => {
+        updatePreview();
+        autoResize();
+      });
+      
       updatePreview(); // initial render
+      setTimeout(autoResize, 0); // initial resize
     }
   }
 
