@@ -13,6 +13,8 @@ const articles = await db
     title: articlesTable.title,
     description: articlesTable.description,
     date: articlesTable.date,
+    publishedAt: articlesTable.publishedAt,
+    updatedAt: articlesTable.updatedAt,
     readTime: articlesTable.readTime,
     categoryName: categoriesTable.name,
   })
@@ -43,11 +45,15 @@ const articles = await db
         {
           /* prettier-ignore */
           articles.map((article) => (
-          <ArticleCard title={article.title} excerpt={article.description} date={new Date(article.date).toLocaleDateString("ja-JP", {
+          <ArticleCard title={article.title} excerpt={article.description} date={(article.publishedAt ? new Date(article.publishedAt) : new Date(article.date)).toLocaleDateString("ja-JP", {
               year: "numeric",
               month: "long",
               day: "numeric",
-            })} readTime={`${article.readTime}分で読めます`} category={article.categoryName} categoryVariant={article.categoryName === "デザイン" ? "blue" : "purple"} href={`/articles/${article.slug}`} />
+            })} updatedDate={article.updatedAt ? new Date(article.updatedAt).toLocaleDateString("ja-JP", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }) : null} readTime={`${article.readTime}分で読めます`} category={article.categoryName} categoryVariant={article.categoryName === "デザイン" ? "blue" : "purple"} href={`/articles/${article.slug}`} />
           ))
         }
       </div>

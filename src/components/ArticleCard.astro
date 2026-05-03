@@ -9,18 +9,24 @@ export interface Props {
   title: string;
   excerpt: string;
   date: string;
+  updatedDate?: string | null;
   readTime: string;
   category: string;
   categoryVariant?: "blue" | "purple";
   href: string;
 }
 
-const { title, excerpt, date, readTime, category, categoryVariant = "blue", href } = Astro.props;
+const { title, excerpt, date, updatedDate, readTime, category, categoryVariant = "blue", href } = Astro.props;
 ---
 
 <article class="card">
   <a href={href} class="card-link">
-    <div class="card-date">{date}</div>
+    <div class="card-dates">
+      <div class="card-date">公開: {date}</div>
+      {updatedDate && updatedDate !== date && (
+        <div class="card-date card-updated">更新: {updatedDate}</div>
+      )}
+    </div>
     <h3 class="card-title">{title}</h3>
     <p class="card-excerpt">{excerpt}</p>
     <div class="card-meta">
@@ -52,6 +58,12 @@ const { title, excerpt, date, readTime, category, categoryVariant = "blue", href
     gap: var(--gap-sm);
     text-decoration: none;
     color: inherit;
+  }
+
+  .card-dates {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-md);
   }
 
   .card-date {

@@ -9,11 +9,12 @@ interface Props {
   title: string;
   description: string;
   date: Date;
+  updatedDate?: Date | null;
   category: string;
   readTime: string;
 }
 
-const { title, description, date, category, readTime } = Astro.props;
+const { title, description, date, updatedDate, category, readTime } = Astro.props;
 
 const categoryVariant = category === "デザイン" ? "blue" : "purple";
 const formattedDate = date.toLocaleDateString("ja-JP", {
@@ -21,6 +22,12 @@ const formattedDate = date.toLocaleDateString("ja-JP", {
   month: "long",
   day: "numeric",
 });
+
+const formattedUpdatedDate = updatedDate ? updatedDate.toLocaleDateString("ja-JP", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}) : null;
 ---
 
 <BaseLayout title={`${title} - jakelizzi's blog`} description={description}>
@@ -36,8 +43,16 @@ const formattedDate = date.toLocaleDateString("ja-JP", {
 
       <!-- Article Meta -->
       <div class="article-meta">
-        <span class="meta-date">{formattedDate}</span>
-        <span class="meta-sep">/</span>
+        <div class="meta-dates">
+          <span class="meta-date">公開: {formattedDate}</span>
+          {formattedUpdatedDate && formattedUpdatedDate !== formattedDate && (
+            <>
+              <span class="meta-sep">/</span>
+              <span class="meta-date meta-updated">更新: {formattedUpdatedDate}</span>
+            </>
+          )}
+        </div>
+        <span class="meta-sep">|</span>
         <span class="meta-read">{readTime}</span>
         <Badge category={category} variant={categoryVariant} />
       </div>
@@ -105,6 +120,12 @@ const formattedDate = date.toLocaleDateString("ja-JP", {
     display: flex;
     align-items: center;
     gap: var(--gap-md);
+  }
+
+  .meta-dates {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
   }
 
   .meta-date,

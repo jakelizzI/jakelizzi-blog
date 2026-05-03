@@ -55,8 +55,26 @@ export const POST: APIRoute = async (context) => {
         status,
         content,
         date,
+        publishedAt: status === "published" ? date : null,
+        updatedAt: date,
       });
     } else {
+      const existing = await db.select({ 
+          publishedAt: articlesTable.publishedAt,
+          status: articlesTable.status 
+        })
+        .from(articlesTable)
+        .where(eq(articlesTable.id, id))
+        .get();
+        
+      const now = new Date();
+      
+      // 公開日は「値が入っていない（null）かつ、公開状態にする時」のみ現在時刻を記録する
+      let publishedAt = existing?.publishedAt || null;
+      if (status === "published" && !publishedAt) {
+        publishedAt = now;
+      }
+
       await db.update(articlesTable).set({
         slug,
         title,
@@ -65,6 +83,8 @@ export const POST: APIRoute = async (context) => {
         readTime,
         status,
         content,
+        publishedAt,
+        updatedAt: now,
       }).where(eq(articlesTable.id, id));
     }
     if (formData.get("isAjax") === "true") {

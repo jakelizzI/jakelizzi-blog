@@ -31,7 +31,8 @@ const htmlContent = await marked.parse(article.content, { breaks: true });
 <ArticleLayout
   title={article.title}
   description={article.description}
-  date={new Date(article.date)}
+  date={article.publishedAt ? new Date(article.publishedAt) : new Date(article.date)}
+  updatedDate={article.updatedAt ? new Date(article.updatedAt) : null}
   category={category.name}
   readTime={`${article.readTime}分で読めます`}
 >

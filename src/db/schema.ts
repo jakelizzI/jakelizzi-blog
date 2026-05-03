@@ -18,4 +18,6 @@ export const articles = sqliteTable("articles", {
   readTime: integer("read_time").notNull(),
   status: text("status").notNull().default("draft"),
   content: text("content").notNull(),
+  publishedAt: integer("published_at", { mode: "timestamp" }),
+  updatedAt: integer("updated_at", { mode: "timestamp" }),
 });
