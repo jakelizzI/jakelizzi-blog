@@ -6,7 +6,12 @@
 
 <header>
   <div class="container">
-    <a href="/" class="logo">jakelizzi's blog</a>
+    <a href="/" class="logo">
+      <div class="title-content">
+        <img class="title_logo" src="/favicon.svg?v=2" alt="logo" />
+        <h1 class="title">jakelizzi's blog</h1>
+      </div>
+    </a>
   </div>
 </header>
 
@@ -39,6 +44,22 @@
 
   .logo:hover {
     opacity: 0.7;
+  }
+
+  .title-content {
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .title {
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text-primary);
+    margin-bottom: 0px;
+    margin-left: 20px;
   }
 
   /* Mobile */
