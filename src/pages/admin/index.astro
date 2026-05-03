@@ -74,9 +74,7 @@ function formatDateTime(dateVal: Date | null) {
           <th>タイトル</th>
           <th>カテゴリー</th>
           <th>公開ステータス</th>
-          <th>作成日</th>
-          <th>公開日</th>
-          <th>更新日</th>
+          <th>日時</th>
           <th>操作</th>
         </tr>
       </thead>
@@ -104,28 +102,44 @@ function formatDateTime(dateVal: Date | null) {
                   <span class="status-badge draft">未公開</span>
                 )}
               </td>
-              <td class="date-cell">{formatDateTime(article.date)}</td>
-              <td class="date-cell">{formatDateTime(article.publishedAt)}</td>
-              <td class="date-cell">{formatDateTime(article.updatedAt)}</td>
+              <td class="date-cell">
+                <div class="date-stack">
+                  <span>
+                    <small>作成:</small> {formatDateTime(article.date)}
+                  </span>
+                  <span>
+                    <small>公開:</small> {formatDateTime(article.publishedAt)}
+                  </span>
+                  <span>
+                    <small>更新:</small> {formatDateTime(article.updatedAt)}
+                  </span>
+                </div>
+              </td>
               <td class="actions">
-                <a href={`/articles/${article.slug}`} target="_blank" class="btn-text text-muted">
-                  表示
-                </a>
-                <a href={`/admin/edit/${article.id}`} class="btn-text">
-                  編集
-                </a>
-                <form
-                  action="/admin/api/articles"
-                  method="POST"
-                  class="inline-form"
-                  onsubmit="return confirm('本当に削除しますか？');"
-                >
-                  <input type="hidden" name="intent" value="delete" />
-                  <input type="hidden" name="id" value={article.id} />
-                  <button type="submit" class="btn-text text-danger">
-                    削除
-                  </button>
-                </form>
+                <div class="action-stack">
+                  {article.articleStatus ? (
+                    <a href={`/articles/${article.slug}`} target="_blank" class="btn-text text-muted">
+                      表示
+                    </a>
+                  ) : (
+                    <p class="text-muted">未公開</p>
+                  )}
+                  <a href={`/admin/edit/${article.id}`} class="btn-text">
+                    編集
+                  </a>
+                  <form
+                    action="/admin/api/articles"
+                    method="POST"
+                    class="inline-form"
+                    onsubmit="return confirm('本当に削除しますか？');"
+                  >
+                    <input type="hidden" name="intent" value="delete" />
+                    <input type="hidden" name="id" value={article.id} />
+                    <button type="submit" class="btn-text text-danger">
+                      削除
+                    </button>
+                  </form>
+                </div>
               </td>
             </tr>
           ))
@@ -336,5 +350,31 @@ function formatDateTime(dateVal: Date | null) {
   }
   .toggle-switch-text input:checked + .slider:before {
     transform: translateX(76px);
+  }
+
+  .date-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    white-space: nowrap;
+    font-size: 0.75rem;
+  }
+  .date-stack span {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .date-stack small {
+    color: #64748b;
+    width: 32px;
+  }
+
+  .action-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .action-stack p {
+    margin: 0;
   }
 </style>
