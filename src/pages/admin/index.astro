@@ -1,24 +1,50 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { articles as articlesTable, categories as categoriesTable } from "../../db/schema";
+import { draftArticles, articles as articlesTable, categories as categoriesTable } from "../../db/schema";
 import { desc, eq } from "drizzle-orm";
 import { SignOut } from "auth-astro/components";
 
 const db = Astro.locals.db;
-const articles = await db
+const allDrafts = await db
   .select({
-    id: articlesTable.id,
-    slug: articlesTable.slug,
-    title: articlesTable.title,
-    date: articlesTable.date,
-    publishedAt: articlesTable.publishedAt,
-    updatedAt: articlesTable.updatedAt,
-    status: articlesTable.status,
+    id: draftArticles.id,
+    slug: draftArticles.slug,
+    title: draftArticles.title,
+    date: draftArticles.date,
+    updatedAt: draftArticles.updatedAt,
     categoryName: categoriesTable.name,
+    articleStatus: articlesTable.status,
+    publishedAt: articlesTable.publishedAt,
+    articleUpdatedAt: articlesTable.updatedAt,
   })
-  .from(articlesTable)
-  .innerJoin(categoriesTable, eq(articlesTable.categoryId, categoriesTable.id))
-  .orderBy(desc(articlesTable.date));
+  .from(draftArticles)
+  .innerJoin(categoriesTable, eq(draftArticles.categoryId, categoriesTable.id))
+  .leftJoin(articlesTable, eq(draftArticles.id, articlesTable.id))
+  .orderBy(desc(draftArticles.date));
+
+const articles = allDrafts.map((draft) => {
+  let statusClass = "draft";
+  let isDiff = false;
+
+  if (draft.articleStatus) {
+    if (draft.articleStatus === "published") {
+      statusClass = "published";
+    } else {
+      statusClass = "draft";
+    }
+
+    if (
+      draft.updatedAt &&
+      draft.articleUpdatedAt &&
+      new Date(draft.updatedAt).getTime() > new Date(draft.articleUpdatedAt).getTime()
+    ) {
+      statusClass = "diff";
+      isDiff = true;
+    }
+  }
+
+  return { ...draft, statusClass, isDiff };
+});
 
 function formatDateTime(dateVal: Date | null) {
   if (!dateVal) return "-";
@@ -47,7 +73,7 @@ function formatDateTime(dateVal: Date | null) {
         <tr>
           <th>タイトル</th>
           <th>カテゴリー</th>
-          <th>ステータス</th>
+          <th>公開ステータス</th>
           <th>作成日</th>
           <th>公開日</th>
           <th>更新日</th>
@@ -55,32 +81,91 @@ function formatDateTime(dateVal: Date | null) {
         </tr>
       </thead>
       <tbody>
-        {articles.map((article) => (
-          <tr>
-            <td>{article.title}</td>
-            <td>{article.categoryName}</td>
-            <td>
-              <span class={`status-badge ${article.status}`}>
-                {article.status === 'published' ? '公開' : '下書き'}
-              </span>
-            </td>
-            <td class="date-cell">{formatDateTime(article.date)}</td>
-            <td class="date-cell">{formatDateTime(article.publishedAt)}</td>
-            <td class="date-cell">{formatDateTime(article.updatedAt)}</td>
-            <td class="actions">
-              <a href={`/articles/${article.slug}`} target="_blank" class="btn-text text-muted">表示</a>
-              <a href={`/admin/edit/${article.id}`} class="btn-text">編集</a>
-              <form action="/admin/api/articles" method="POST" class="inline-form" onsubmit="return confirm('本当に削除しますか？');">
-                <input type="hidden" name="intent" value="delete" />
-                <input type="hidden" name="id" value={article.id} />
-                <button type="submit" class="btn-text text-danger">削除</button>
-              </form>
-            </td>
-          </tr>
-        ))}
+        {
+          articles.map((article) => (
+            <tr>
+              <td>{article.title}</td>
+              <td>{article.categoryName}</td>
+              <td>
+                {article.articleStatus ? (
+                  <div class="status-cell">
+                    <label class="toggle-switch-text">
+                      <input
+                        type="checkbox"
+                        class="status-toggle"
+                        data-id={article.id}
+                        checked={article.articleStatus === "published"}
+                      />
+                      <span class="slider round" data-on="公開中" data-off="非公開" />
+                    </label>
+                    {article.isDiff && <span class="diff-text">ドラフトと差分有</span>}
+                  </div>
+                ) : (
+                  <span class="status-badge draft">未公開</span>
+                )}
+              </td>
+              <td class="date-cell">{formatDateTime(article.date)}</td>
+              <td class="date-cell">{formatDateTime(article.publishedAt)}</td>
+              <td class="date-cell">{formatDateTime(article.updatedAt)}</td>
+              <td class="actions">
+                <a href={`/articles/${article.slug}`} target="_blank" class="btn-text text-muted">
+                  表示
+                </a>
+                <a href={`/admin/edit/${article.id}`} class="btn-text">
+                  編集
+                </a>
+                <form
+                  action="/admin/api/articles"
+                  method="POST"
+                  class="inline-form"
+                  onsubmit="return confirm('本当に削除しますか？');"
+                >
+                  <input type="hidden" name="intent" value="delete" />
+                  <input type="hidden" name="id" value={article.id} />
+                  <button type="submit" class="btn-text text-danger">
+                    削除
+                  </button>
+                </form>
+              </td>
+            </tr>
+          ))
+        }
       </tbody>
     </table>
   </div>
+
+  <script>
+    document.querySelectorAll(".status-toggle").forEach((toggle) => {
+      toggle.addEventListener("change", async (e) => {
+        const checkbox = e.target as HTMLInputElement;
+        const id = checkbox.dataset.id;
+        const newStatus = checkbox.checked ? "published" : "private";
+
+        if (!confirm(`本当に${newStatus === "published" ? "公開" : "非公開"}に変更しますか？`)) {
+          checkbox.checked = !checkbox.checked; // 元に戻す
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("id", id || "");
+        formData.append("status", newStatus);
+
+        try {
+          const res = await fetch("/admin/api/toggle-status", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!res.ok) {
+            throw new Error("変更に失敗しました");
+          }
+        } catch (err) {
+          alert("エラーが発生しました。ページをリロードしてください。");
+          checkbox.checked = !checkbox.checked;
+        }
+      });
+    });
+  </script>
 </BaseLayout>
 
 <style>
@@ -103,11 +188,12 @@ function formatDateTime(dateVal: Date | null) {
     width: 100%;
     border-collapse: collapse;
     background: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
   }
-  .admin-table th, .admin-table td {
+  .admin-table th,
+  .admin-table td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid #eee;
@@ -171,5 +257,84 @@ function formatDateTime(dateVal: Date | null) {
   .status-badge.draft {
     background: #f1f5f9;
     color: #475569;
+  }
+  .status-badge.diff {
+    background: #fef08a;
+    color: #854d0e;
+  }
+
+  .status-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+  .diff-text {
+    font-size: 0.8rem;
+    color: #ef4444;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+
+  /* Text Toggle Switch */
+  .toggle-switch-text {
+    position: relative;
+    display: inline-block;
+    width: 110px;
+    height: 34px;
+  }
+  .toggle-switch-text input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .toggle-switch-text .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    transition: 0.4s;
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .toggle-switch-text .slider::after {
+    content: attr(data-off);
+    position: absolute;
+    right: 14px;
+    transition: 0.4s;
+  }
+  .toggle-switch-text .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+  }
+  .toggle-switch-text input:checked + .slider {
+    background-color: #10b981;
+    border-color: #10b981;
+    color: white;
+  }
+  .toggle-switch-text input:checked + .slider::after {
+    content: attr(data-on);
+    left: 14px;
+    right: auto;
+  }
+  .toggle-switch-text input:checked + .slider:before {
+    transform: translateX(76px);
   }
 </style>

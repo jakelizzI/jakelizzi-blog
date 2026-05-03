@@ -6,6 +6,20 @@ export const categories = sqliteTable("categories", {
   slug: text("slug").notNull().unique(),
 });
 
+export const draftArticles = sqliteTable("draft_articles", {
+  id: text("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  date: integer("date", { mode: "timestamp" }).notNull(),
+  categoryId: integer("category_id")
+    .references(() => categories.id)
+    .notNull(),
+  readTime: integer("read_time").notNull(),
+  content: text("content").notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }),
+});
+
 export const articles = sqliteTable("articles", {
   id: text("id").primaryKey(),
   slug: text("slug").notNull().unique(),
@@ -16,7 +30,7 @@ export const articles = sqliteTable("articles", {
     .references(() => categories.id)
     .notNull(),
   readTime: integer("read_time").notNull(),
-  status: text("status").notNull().default("draft"),
+  status: text("status").notNull().default("private"),
   content: text("content").notNull(),
   publishedAt: integer("published_at", { mode: "timestamp" }),
   updatedAt: integer("updated_at", { mode: "timestamp" }),

@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { articles as articlesTable, categories as categoriesTable } from "../../../db/schema";
+import { articles as articlesTable, categories as categoriesTable, draftArticles } from "../../../db/schema";
 import { eq } from "drizzle-orm";
 
 export const POST: APIRoute = async (context) => {
@@ -10,17 +10,17 @@ export const POST: APIRoute = async (context) => {
   if (intent === "delete") {
     const id = formData.get("id")?.toString();
     if (id) {
+      await db.delete(draftArticles).where(eq(draftArticles.id, id));
       await db.delete(articlesTable).where(eq(articlesTable.id, id));
     }
     return context.redirect("/admin");
   }
 
-  if (intent === "create" || intent === "update") {
+  if (intent === "save_draft" || intent === "reflect") {
     const id = formData.get("id")?.toString();
     const slug = formData.get("slug")?.toString() || id;
     const title = formData.get("title")?.toString() || "";
     const description = formData.get("description")?.toString() || "";
-    const status = formData.get("status")?.toString() || "draft";
     
     const newCategoryName = formData.get("newCategoryName")?.toString() || "";
     const newCategorySlug = formData.get("newCategorySlug")?.toString() || "";
@@ -43,49 +43,63 @@ export const POST: APIRoute = async (context) => {
       return new Response("Missing required fields", { status: 400 });
     }
 
-    if (intent === "create") {
-      const date = new Date();
-      await db.insert(articlesTable).values({
-        id,
-        slug,
-        title,
-        description,
-        categoryId,
-        readTime,
-        status,
-        content,
-        date,
-        publishedAt: status === "published" ? date : null,
-        updatedAt: date,
-      });
+    const date = new Date();
+    const draftData = {
+      id,
+      slug,
+      title,
+      description,
+      categoryId,
+      readTime,
+      content,
+      updatedAt: date,
+    };
+
+    const existingDraft = await db.select({ id: draftArticles.id })
+      .from(draftArticles).where(eq(draftArticles.id, id)).get();
+
+    if (existingDraft) {
+      await db.update(draftArticles).set(draftData).where(eq(draftArticles.id, id));
     } else {
-      const existing = await db.select({ 
+      await db.insert(draftArticles).values({ ...draftData, date });
+    }
+
+    if (intent === "reflect") {
+      const existingArticle = await db.select({ 
           publishedAt: articlesTable.publishedAt,
           status: articlesTable.status 
         })
         .from(articlesTable)
         .where(eq(articlesTable.id, id))
         .get();
-        
-      const now = new Date();
-      
-      // 公開日は「値が入っていない（null）かつ、公開状態にする時」のみ現在時刻を記録する
-      let publishedAt = existing?.publishedAt || null;
-      if (status === "published" && !publishedAt) {
-        publishedAt = now;
+
+      // 公開日は「値が入っていない（null）かつ、初めて反映される時」のみ記録する
+      let publishedAt = existingArticle?.publishedAt || null;
+      if (!publishedAt) {
+        publishedAt = date;
       }
 
-      await db.update(articlesTable).set({
+      const articleData = {
+        id,
         slug,
         title,
         description,
         categoryId,
         readTime,
-        status,
         content,
+        updatedAt: date,
         publishedAt,
-        updatedAt: now,
-      }).where(eq(articlesTable.id, id));
+      };
+
+      if (existingArticle) {
+        await db.update(articlesTable).set(articleData).where(eq(articlesTable.id, id));
+      } else {
+        await db.insert(articlesTable).values({ 
+          ...articleData, 
+          date,
+          status: "published"
+        });
+      }
     }
     if (formData.get("isAjax") === "true") {
       return new Response(JSON.stringify({ success: true }), {

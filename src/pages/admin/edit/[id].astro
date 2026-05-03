@@ -1,14 +1,17 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { articles as articlesTable, categories as categoriesTable } from "../../../db/schema";
+import { draftArticles, articles as articlesTable, categories as categoriesTable } from "../../../db/schema";
 import { eq } from "drizzle-orm";
 
 const { id } = Astro.params;
 if (!id) return Astro.redirect("/admin");
 
 const db = Astro.locals.db;
-const article = await db.select().from(articlesTable).where(eq(articlesTable.id, id)).get();
+const article = await db.select().from(draftArticles).where(eq(draftArticles.id, id)).get();
 if (!article) return Astro.redirect("/admin");
+
+const publishedArticle = await db.select({ status: articlesTable.status }).from(articlesTable).where(eq(articlesTable.id, id)).get();
+const isPrivate = publishedArticle?.status === 'private';
 
 const categories = await db.select().from(categoriesTable);
 ---
@@ -21,7 +24,6 @@ const categories = await db.select().from(categoriesTable);
     </div>
 
     <form action="/admin/api/articles" method="POST" class="article-form">
-      <input type="hidden" name="intent" value="update" />
       <!-- ID is required for update but shouldn't be changed -->
       <input type="hidden" name="id" value={article.id} />
 
@@ -84,8 +86,10 @@ const categories = await db.select().from(categoriesTable);
       </div>
 
       <div class="submit-actions">
-        <button type="button" id="btnDraft" class="btn btn-secondary btn-submit">下書き保存</button>
-        <button type="submit" name="status" value="published" class="btn btn-primary btn-submit">公開する</button>
+        <button type="button" id="btnDraft" class="btn btn-secondary btn-submit">ドラフト保存</button>
+        <button type="submit" name="intent" value="reflect" class="btn btn-primary btn-submit">
+          {isPrivate ? '非公開へ反映' : '公開中へ反映'}
+        </button>
       </div>
     </form>
   </div>
@@ -349,7 +353,7 @@ const categories = await db.select().from(categoriesTable);
         }
 
         const formData = new FormData(form);
-        formData.append("status", "draft");
+        formData.set("intent", "save_draft");
         formData.append("isAjax", "true");
 
         try {

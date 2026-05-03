@@ -14,7 +14,6 @@ const categories = await db.select().from(categoriesTable);
     </div>
 
     <form action="/admin/api/articles" method="POST" class="article-form">
-      <input type="hidden" name="intent" value="create" />
       
       <div class="form-group">
         <label for="id">記事ID (URLの末尾などで使用、例: my-new-post)</label>
@@ -71,8 +70,8 @@ const categories = await db.select().from(categoriesTable);
       </div>
 
       <div class="submit-actions">
-        <button type="button" id="btnDraft" class="btn btn-secondary btn-submit">下書き保存</button>
-        <button type="submit" name="status" value="published" class="btn btn-primary btn-submit">公開する</button>
+        <button type="button" id="btnDraft" class="btn btn-secondary btn-submit">ドラフト保存</button>
+        <button type="submit" name="intent" value="reflect" class="btn btn-primary btn-submit">公開中へ反映</button>
       </div>
     </form>
   </div>
@@ -329,7 +328,7 @@ const categories = await db.select().from(categoriesTable);
         }
 
         const formData = new FormData(form);
-        formData.append('status', 'draft');
+        formData.set('intent', 'save_draft');
         formData.append('isAjax', 'true');
 
         try {
@@ -339,16 +338,12 @@ const categories = await db.select().from(categoriesTable);
           });
 
           if (res.ok) {
-            showToast(isAutoSave ? '自動保存しました' : '下書き保存しました');
-            const intentInput = document.querySelector('input[name="intent"]') as HTMLInputElement;
-            if (intentInput && intentInput.value === 'create') {
-              intentInput.value = 'update';
-              const idInput = document.getElementById('id') as HTMLInputElement;
-              if (idInput) {
-                idInput.readOnly = true;
-                idInput.style.backgroundColor = '#f1f5f9';
-                idInput.style.color = '#64748b';
-              }
+            showToast(isAutoSave ? '自動保存しました' : 'ドラフト保存しました');
+            const idInput = document.getElementById('id') as HTMLInputElement;
+            if (idInput && !idInput.readOnly) {
+              idInput.readOnly = true;
+              idInput.style.backgroundColor = '#f1f5f9';
+              idInput.style.color = '#64748b';
             }
             hasUnsavedChanges = false;
             return true;
