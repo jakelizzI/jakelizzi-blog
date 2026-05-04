@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "12.2.0",
-    "@auth/core": "^0.34.3",
+    "@auth/core": "^0.37.3",
     "@libsql/client": "^0.17.3",
     "astro": "5.4.2",
     "auth-astro": "^4.2.0",
