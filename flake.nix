@@ -17,8 +17,8 @@
             # Bun runtime for Astro
             bun
             
-            # Node.js (some Astro tooling may need it)
-            nodejs_20
+            # Node.js (Wrangler v4 requires v22+)
+            nodejs_22
             
             # Git for version control
             git
