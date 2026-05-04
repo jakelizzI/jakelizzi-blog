@@ -9,7 +9,8 @@
 	"vars": {
 		"AUTH_TRUST_HOST": "true",
 		"AUTH_URL": "https://jakelizzi-blog.pages.dev",
-		"GOOGLE_CLIENT_ID": "897903398472-0j0q4ki3oujth1upmo7kks0d7i9ekair.apps.googleusercontent.com"
+		"GOOGLE_CLIENT_ID": "897903398472-0j0q4ki3oujth1upmo7kks0d7i9ekair.apps.googleusercontent.com",
+		"PUBLIC_GA_ID": "G-VQHSG13N84"
 	},
 	"d1_databases": [
 		{

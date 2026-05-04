@@ -4,7 +4,14 @@ import { SignIn } from "auth-astro/components";
 import { getSession } from "auth-astro/server";
 
 const session = await getSession(Astro.request);
-const adminEmail = import.meta.env.ADMIN_EMAIL || process.env.ADMIN_EMAIL;
+
+let adminEmail: string | undefined;
+try {
+  const { env } = await import("cloudflare:workers");
+  adminEmail = env.ADMIN_EMAIL;
+} catch {
+  adminEmail = process.env.ADMIN_EMAIL;
+}
 
 if (session && session.user?.email === adminEmail) {
   return Astro.redirect("/admin");
