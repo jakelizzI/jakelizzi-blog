@@ -9,8 +9,5 @@
 			"database_name": "jakelizzi_blog_db",
 			"database_id": "f2bdcb1f-b19c-4860-87bd-b93b441339d7"
 		}
-	],
-	"assets": {
-		"directory": "./dist"
-	}
+	]
 }
