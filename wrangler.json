@@ -1,14 +1,15 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "jakelizzi-blog",
-	"compatibility_date": "2024-09-23",
+	"compatibility_date": "2025-04-01",
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
 	"pages_build_output_dir": "./dist",
 	"vars": {
 		"AUTH_TRUST_HOST": "true",
-		"AUTH_URL": "https://jakelizzi-blog.pages.dev"
+		"AUTH_URL": "https://jakelizzi-blog.pages.dev",
+		"GOOGLE_CLIENT_ID": "897903398472-0j0q4ki3oujth1upmo7kks0d7i9ekair.apps.googleusercontent.com"
 	},
 	"d1_databases": [
 		{
