@@ -9,6 +9,15 @@ if (!slug) {
   return Astro.redirect("/404");
 }
 
+// 外部リンクを新しいタブで開く
+const renderer = new marked.Renderer();
+renderer.link = ({ href, title, text }) => {
+  const isExternal = href?.startsWith("http");
+  const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
+  const titleAttr = title ? ` title="${title}"` : "";
+  return `<a href="${href}"${titleAttr}${attrs}>${text}</a>`;
+};
+
 const db = Astro.locals.db;
 const result = await db
   .select({
@@ -25,7 +34,7 @@ if (!result) {
 }
 
 const { article, category } = result;
-const htmlContent = await marked.parse(article.content, { breaks: true });
+const htmlContent = await marked.parse(article.content, { breaks: true, renderer });
 ---
 
 <ArticleLayout

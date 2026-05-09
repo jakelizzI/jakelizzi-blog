@@ -11,5 +11,5 @@ export default defineConfig({
       enabled: true,
     },
   }),
-  integrations: [auth()]
+  integrations: [auth()],
 });
