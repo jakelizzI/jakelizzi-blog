@@ -8,19 +8,13 @@ import { getSession } from "auth-astro/server";
 // キャッシュ用のローカルDBインスタンス
 let localDb: ReturnType<typeof drizzleLibSQL> | null = null;
 
-// Cloudflare環境変数の取得ヘルパー
-function getCloudflareEnv() {
-  try {
-    // cloudflare:workers はCloudflareランタイムでのみ利用可能
-    const { env } = require("cloudflare:workers");
-    return env;
-  } catch {
-    return null;
-  }
-}
-
 export const onRequest = defineMiddleware(async (context, next) => {
-  const cfEnv = getCloudflareEnv();
+  // Cloudflare環境変数の取得（本番のみ）
+  let cfEnv: any = null;
+  if (import.meta.env.PROD) {
+    const { env } = await import("cloudflare:workers");
+    cfEnv = env;
+  }
 
   // /admin 以下のアクセスは認証必須（管理者のみ）
   if (context.url.pathname.startsWith('/admin')) {
@@ -32,7 +26,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   }
 
-  // 本番ビルド(Cloudflare上)かつDBバインディングが存在する場合のみD1を利用
+  // DB接続
   if (import.meta.env.PROD && cfEnv?.DB) {
     // Cloudflare D1 environment
     context.locals.db = drizzleD1(cfEnv.DB, { schema }) as any;
@@ -49,4 +43,3 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   return next();
 });
-
