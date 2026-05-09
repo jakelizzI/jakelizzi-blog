@@ -208,6 +208,7 @@ a:hover {
 
 .prose a {
   color: var(--text-link);
+  font-style: italic;
   text-decoration: underline;
   text-decoration-color: rgba(37, 99, 235, 0.3);
   text-underline-offset: 3px;
