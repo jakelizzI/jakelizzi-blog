@@ -2,16 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SignIn } from "auth-astro/components";
 import { getSession } from "auth-astro/server";
+import { env } from "cloudflare:workers";
 
 const session = await getSession(Astro.request);
-
-let adminEmail: string | undefined;
-if (import.meta.env.PROD) {
-  const { env } = await import("cloudflare:workers");
-  adminEmail = env.ADMIN_EMAIL;
-} else {
-  adminEmail = (Astro.locals as any).runtime?.env?.ADMIN_EMAIL;
-}
+const adminEmail = env.ADMIN_EMAIL;
 
 if (session && session.user?.email === adminEmail) {
   return Astro.redirect("/admin");

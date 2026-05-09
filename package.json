@@ -12,23 +12,27 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/cloudflare": "12.2.0",
-    "@auth/core": "^0.37.3",
+    "@astrojs/cloudflare": "13.5.0",
+    "@auth/core": "^0.34.3",
     "@libsql/client": "^0.17.3",
-    "astro": "5.4.2",
+    "astro": "6.3.1",
     "auth-astro": "^4.2.0",
     "drizzle-orm": "^0.45.2",
-    "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
-    "marked": "^18.0.2",
+    "marked": "^18.0.3",
     "marked-highlight": "^2.2.4",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@types/marked": "^6.0.0",
     "drizzle-kit": "^0.31.10",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
-    "wrangler": "4"
+    "wrangler": "^4.90.0"
+  },
+  "overrides": {
+    "yaml": "^2.8.3",
+    "esbuild": "^0.25.0",
+    "cookie": "^0.7.0"
   }
 }
