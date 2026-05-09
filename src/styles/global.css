@@ -206,6 +206,20 @@ a:hover {
   font-size: 0.95em;
 }
 
+.prose a {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-decoration-color: rgba(37, 99, 235, 0.3);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.prose a:hover {
+  color: var(--text-link-hover);
+  text-decoration-color: var(--text-link-hover);
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .prose h2 { font-size: var(--text-4xl); letter-spacing: -0.8px; }
   .prose h3 { font-size: var(--text-xl); }

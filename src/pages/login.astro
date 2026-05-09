@@ -22,16 +22,18 @@ if (session && session.user?.email === adminEmail) {
   <div class="login-container">
     <div class="login-box">
       <h1>管理者ログイン</h1>
-      
-      {session && session.user?.email !== adminEmail && (
-        <div class="error-message">
-          <p>アクセス権限がありません。</p>
-          <p>現在のアカウント: {session.user?.email}</p>
-        </div>
-      )}
+
+      {
+        session && session.user?.email !== adminEmail && (
+          <div class="error-message">
+            <p>アクセス権限がありません。</p>
+            <p>現在のアカウント: {session.user?.email}</p>
+          </div>
+        )
+      }
 
       <p class="description">ブログの管理を行うにはGoogleアカウントでログインしてください。</p>
-      
+
       <SignIn provider="google" class="btn btn-primary">Googleでログイン</SignIn>
     </div>
   </div>
