@@ -6,11 +6,11 @@ import { getSession } from "auth-astro/server";
 const session = await getSession(Astro.request);
 
 let adminEmail: string | undefined;
-try {
+if (import.meta.env.PROD) {
   const { env } = await import("cloudflare:workers");
   adminEmail = env.ADMIN_EMAIL;
-} catch {
-  adminEmail = process.env.ADMIN_EMAIL;
+} else {
+  adminEmail = (Astro.locals as any).runtime?.env?.ADMIN_EMAIL;
 }
 
 if (session && session.user?.email === adminEmail) {
