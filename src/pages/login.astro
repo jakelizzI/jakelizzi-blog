@@ -3,10 +3,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { auth } from "../lib/auth";
 import { env } from "cloudflare:workers";
 
-const session = await auth.api.getSession({
-  headers: Astro.request.headers
-});
-const adminEmail = env.ADMIN_EMAIL;
+let session = null;
+try {
+  session = await auth.api.getSession({
+    headers: Astro.request.headers
+  });
+} catch (e) {
+  console.error("Failed to get session:", e);
+}
+
+const adminEmail = env.ADMIN_EMAIL || "";
 
 if (session && session.user?.email === adminEmail) {
   return Astro.redirect("/admin");
@@ -26,10 +32,17 @@ if (session && session.user?.email === adminEmail) {
           </div>
         )
       }
+      {
+        !adminEmail && (
+          <div class="error-message">
+            <p>システムエラー：ADMIN_EMAILが設定されていません。</p>
+          </div>
+        )
+      }
 
       <p class="description">ブログの管理を行うにはGoogleアカウントでログインしてください。</p>
 
-      <button id="login-btn" class="btn btn-primary">Googleでログイン</button>
+      <button id="login-btn" class="btn btn-primary" disabled={!adminEmail}>Googleでログイン</button>
     </div>
   </div>
 </BaseLayout>
@@ -38,10 +51,15 @@ if (session && session.user?.email === adminEmail) {
   import { authClient } from "../lib/auth-client";
 
   document.getElementById("login-btn")?.addEventListener("click", async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "/admin"
-    });
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/admin"
+      });
+    } catch (e) {
+      console.error("Sign in failed:", e);
+      alert("ログイン中にエラーが発生しました。時間を置いて再度お試しください。");
+    }
   });
 </script>
 

@@ -151,13 +151,18 @@ function formatDateTime(dateVal: Date | null) {
     import { authClient } from "../../lib/auth-client";
 
     document.getElementById("logout-btn")?.addEventListener("click", async () => {
-      await authClient.signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            window.location.href = "/login";
+      try {
+        await authClient.signOut({
+          fetchOptions: {
+            onSuccess: () => {
+              window.location.href = "/login";
+            },
           },
-        },
-      });
+        });
+      } catch (e) {
+        console.error("Sign out failed:", e);
+        alert("ログアウト中にエラーが発生しました。");
+      }
     });
 
     document.querySelectorAll(".status-toggle").forEach((toggle) => {

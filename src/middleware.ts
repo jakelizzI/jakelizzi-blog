@@ -19,7 +19,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // DB接続（Astro 6ではローカル・本番ともにD1バインディングを使用）
-  context.locals.db = drizzleD1(cfEnv.DB, { schema }) as any;
+  context.locals.db = drizzleD1(cfEnv.DB, { schema });
 
   return next();
 });

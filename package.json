@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && rm -rf dist/server/wrangler.json .wrangler/deploy/config.json",
+    "build": "astro build && rimraf dist/server/wrangler.json .wrangler/deploy/config.json",
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier --write .",
@@ -27,6 +27,7 @@
     "drizzle-kit": "^0.31.10",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
+    "rimraf": "^6.1.3",
     "wrangler": "^4.90.0"
   },
   "overrides": {
