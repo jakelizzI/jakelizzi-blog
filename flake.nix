@@ -22,6 +22,9 @@
             
             # Git for version control
             git
+
+            # gh for github operations
+            gh
           ];
 
           shellHook = ''

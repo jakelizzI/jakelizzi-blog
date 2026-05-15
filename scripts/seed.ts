@@ -4,9 +4,10 @@ import { articles, categories } from "../src/db/schema";
 import { eq } from "drizzle-orm";
 import fs from "node:fs/promises";
 import path from "node:path";
-import matter from "gray-matter";
 
-const dbPath = path.resolve(process.cwd(), "local.db");
+import { getLocalD1Path } from "../get-local-d1";
+
+const dbPath = getLocalD1Path();
 const client = createClient({ url: `file:${dbPath}` });
 const db = drizzle(client);
 
@@ -34,7 +35,23 @@ async function seed() {
       const filePath = path.join(articlesDir, file);
       const fileContent = await fs.readFile(filePath, "utf-8");
 
-      const { data, content } = matter(fileContent);
+      const match = fileContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+      let data: any = {};
+      let content = fileContent;
+
+      if (match) {
+        content = match[2];
+        const frontmatterLines = match[1].split('\n');
+        for (const line of frontmatterLines) {
+          const colonIndex = line.indexOf(':');
+          if (colonIndex > -1) {
+            const key = line.slice(0, colonIndex).trim();
+            const value = line.slice(colonIndex + 1).trim().replace(/^['"]|['"]$/g, '');
+            data[key] = value;
+          }
+        }
+      }
+
       const slug = file.replace(/\.mdx?$/, "");
 
       const date = new Date(data.date);
