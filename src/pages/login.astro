@@ -1,10 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SignIn } from "auth-astro/components";
-import { getSession } from "auth-astro/server";
+import { auth } from "../lib/auth";
 import { env } from "cloudflare:workers";
 
-const session = await getSession(Astro.request);
+const session = await auth.api.getSession({
+  headers: Astro.request.headers
+});
 const adminEmail = env.ADMIN_EMAIL;
 
 if (session && session.user?.email === adminEmail) {
@@ -28,10 +29,21 @@ if (session && session.user?.email === adminEmail) {
 
       <p class="description">ブログの管理を行うにはGoogleアカウントでログインしてください。</p>
 
-      <SignIn provider="google" class="btn btn-primary">Googleでログイン</SignIn>
+      <button id="login-btn" class="btn btn-primary">Googleでログイン</button>
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  import { authClient } from "../lib/auth-client";
+
+  document.getElementById("login-btn")?.addEventListener("click", async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/admin"
+    });
+  });
+</script>
 
 <style>
   .login-container {

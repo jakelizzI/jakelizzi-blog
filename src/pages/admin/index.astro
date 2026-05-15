@@ -2,7 +2,6 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { draftArticles, articles as articlesTable, categories as categoriesTable } from "../../db/schema";
 import { desc, eq } from "drizzle-orm";
-import { SignOut } from "auth-astro/components";
 
 const db = Astro.locals.db;
 const allDrafts = await db
@@ -64,7 +63,7 @@ function formatDateTime(dateVal: Date | null) {
       <h1>記事管理ダッシュボード</h1>
       <div class="header-actions">
         <a href="/admin/new" class="btn btn-primary">新規記事作成</a>
-        <SignOut class="btn btn-secondary">ログアウト</SignOut>
+        <button id="logout-btn" class="btn btn-secondary">ログアウト</button>
       </div>
     </div>
 
@@ -149,6 +148,18 @@ function formatDateTime(dateVal: Date | null) {
   </div>
 
   <script>
+    import { authClient } from "../../lib/auth-client";
+
+    document.getElementById("logout-btn")?.addEventListener("click", async () => {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            window.location.href = "/login";
+          },
+        },
+      });
+    });
+
     document.querySelectorAll(".status-toggle").forEach((toggle) => {
       toggle.addEventListener("change", async (e) => {
         const checkbox = e.target as HTMLInputElement;

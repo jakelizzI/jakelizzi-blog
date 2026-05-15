@@ -13,10 +13,9 @@
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/cloudflare": "13.5.0",
-    "@auth/core": "^0.34.3",
     "@libsql/client": "^0.17.3",
     "astro": "6.3.1",
-    "auth-astro": "^4.2.0",
+    "better-auth": "^1.6.9",
     "drizzle-orm": "^0.45.2",
     "highlight.js": "^11.11.1",
     "marked": "^18.0.3",
