@@ -22,6 +22,7 @@ Astroをベースに構築された、高速でセキュアな動的ブログシ
 - **Database**: SQLite (Production: Cloudflare D1 / Local: Wrangler D1 Proxy)
 - **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
 - **Authentication**: [Better Auth](https://better-auth.com/)
+- **CI/CD**: GitHub Actions（D1マイグレーション → Cloudflare Pages デプロイの順に自動実行）
 - **Markdown Parsing**: `marked` (サーバーサイドおよびクライアントサイドプレビュー両用)
 - **Styling**: Vanilla CSS (CSS Variablesを活用したカスタムデザイン)
 
@@ -54,6 +55,10 @@ Astroをベースに構築された、高速でセキュアな動的ブログシ
 │   └── middleware.ts          # 認証保護・DBクライアント初期化ミドルウェア
 ├── scripts/
 │   └── seed.ts                # 初期データ投入スクリプト
+├── .github/
+│   └── workflows/
+│       ├── d1-migrate.yml     # CI: D1マイグレーション（main push時に実行）
+│       └── cf-pages-deploy.yml# CI: Cloudflare Pagesデプロイ（migrate成功後に実行）
 ├── get-local-d1.ts            # ローカル開発用 D1 SQLite ファイルパス解決ユーティリティ
 ├── drizzle.config.ts          # Drizzleの設定ファイル
 └── astro.config.mjs           # Astroの設定ファイル（Cloudflareアダプタ等）
@@ -116,35 +121,40 @@ nix develop -c bun run dev
    - 書き途中の場合は **「下書き保存」** をクリックすると、非公開状態のまま保存されます（画面遷移しません）。
 4. **公開**: 記事が完成したら **「公開する」** をクリックします。これでブログトップページや記事URLからアクセス可能になります。
 
-## 🚢 本番デプロイ後の手順
+## 🚢 デプロイ（GitHub Actions による自動化）
 
-Cloudflare Pages はマージをトリガーに自動でビルド・デプロイを実行しますが、**データベースのマイグレーションは自動では行われません。**
-スキーマ変更（`src/db/schema.ts` の更新や、`drizzle/` フォルダへの `.sql` 追加）が含まれる PR をマージした場合は、以下の手順でローカルから手動で本番 D1 にマイグレーションを適用してください。
+`main` ブランチへのプッシュ（PRマージ）をトリガーに、GitHub Actions が以下の順序で自動実行されます。
 
-### 本番 D1 へのマイグレーション適用
-
-```bash
-# --remote を付けることで本番の Cloudflare D1 に対して適用される
-nix develop -c bunx wrangler d1 migrations apply jakelizzi_blog_db --remote
 ```
-
-実行すると「適用済み」「未適用」のマイグレーション一覧が表示され、確認後に実際に適用されます。
+main へのプッシュ
+      │
+      ▼
+┌─────────────────────────────┐
+│  d1-migrate.yml             │  ① D1 Migrations
+│  Cloudflare D1 にマイグレーション適用  │
+└─────────────────────────────┘
+      │ 成功した場合のみ
+      ▼
+┌─────────────────────────────┐
+│  cf-pages-deploy.yml        │  ② Deploy
+│  ビルド → Cloudflare Pages デプロイ │
+└─────────────────────────────┘
+```
 
 > [!IMPORTANT]
-> この操作は **Cloudflare にログイン済みの状態** で実行してください。
-> 未ログインの場合は先に `nix develop -c bunx wrangler login` を実行してください。
+> **初回セットアップ時のみ** GitHub リポジトリの Settings → Secrets and variables → Actions に以下のシークレットを追加してください。
+>
+> | Secret 名 | 取得場所 |
+> |---|---|
+> | `CLOUDFLARE_API_TOKEN` | Cloudflare ダッシュボード → My Profile → API Tokens（**D1: Edit** と **Cloudflare Pages: Edit** の権限が必要） |
+> | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare ダッシュボード → Workers & Pages → アカウント ID |
 
-### マイグレーションが必要かどうかの確認
-
-マイグレーションを適用する前に、現状の適用状況を確認するには：
-
-```bash
-nix develop -c bunx wrangler d1 migrations list jakelizzi_blog_db --remote
-```
+> [!NOTE]
+> Cloudflare Pages の **自動デプロイ（Auto Deploy）は OFF** にしてください。デプロイは GitHub Actions 経由でのみ行います。
 
 ### ローカル開発時のマイグレーション
 
-ローカル（Wrangler の D1 プロキシ）に対してスキーマを反映する場合は `--remote` なしで実行します：
+ローカル（Wrangler の D1 プロキシ）に対してスキーマを反映する場合は以下を実行します：
 
 ```bash
 nix develop -c bunx drizzle-kit push
