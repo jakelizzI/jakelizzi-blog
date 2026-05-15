@@ -1,9 +1,7 @@
 name: D1 Migrations
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   migrate:
@@ -13,6 +11,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
