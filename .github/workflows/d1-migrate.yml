@@ -1,18 +1,23 @@
 name: D1 Migrations
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   migrate:
     name: Apply D1 Migrations
     runs-on: ubuntu-latest
+    # 手動実行でも main ブランチからのみ本番 D1 に適用させる
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
