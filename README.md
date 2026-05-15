@@ -115,3 +115,37 @@ nix develop -c bun run dev
    - 「カテゴリー」は既存のものから選ぶか、「+ 新規追加」でその場で新しいカテゴリを作れます。
    - 書き途中の場合は **「下書き保存」** をクリックすると、非公開状態のまま保存されます（画面遷移しません）。
 4. **公開**: 記事が完成したら **「公開する」** をクリックします。これでブログトップページや記事URLからアクセス可能になります。
+
+## 🚢 本番デプロイ後の手順
+
+Cloudflare Pages はマージをトリガーに自動でビルド・デプロイを実行しますが、**データベースのマイグレーションは自動では行われません。**
+スキーマ変更（`src/db/schema.ts` の更新や、`drizzle/` フォルダへの `.sql` 追加）が含まれる PR をマージした場合は、以下の手順でローカルから手動で本番 D1 にマイグレーションを適用してください。
+
+### 本番 D1 へのマイグレーション適用
+
+```bash
+# --remote を付けることで本番の Cloudflare D1 に対して適用される
+nix develop -c bunx wrangler d1 migrations apply jakelizzi_blog_db --remote
+```
+
+実行すると「適用済み」「未適用」のマイグレーション一覧が表示され、確認後に実際に適用されます。
+
+> [!IMPORTANT]
+> この操作は **Cloudflare にログイン済みの状態** で実行してください。
+> 未ログインの場合は先に `nix develop -c bunx wrangler login` を実行してください。
+
+### マイグレーションが必要かどうかの確認
+
+マイグレーションを適用する前に、現状の適用状況を確認するには：
+
+```bash
+nix develop -c bunx wrangler d1 migrations list jakelizzi_blog_db --remote
+```
+
+### ローカル開発時のマイグレーション
+
+ローカル（Wrangler の D1 プロキシ）に対してスキーマを反映する場合は `--remote` なしで実行します：
+
+```bash
+nix develop -c bunx drizzle-kit push
+```
