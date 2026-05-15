@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && rm -f dist/server/wrangler.json",
+    "build": "astro build && rm -rf dist/server/wrangler.json .wrangler/deploy/config.json",
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier --write .",
