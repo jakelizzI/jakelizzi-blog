@@ -7,6 +7,8 @@ jobs:
   migrate:
     name: Apply D1 Migrations
     runs-on: ubuntu-latest
+    # 手動実行でも main ブランチからのみ本番 D1 に適用させる
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout
