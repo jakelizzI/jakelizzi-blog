@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Build and Deploy to Cloudflare Pages
+    name: Build and Deploy to Cloudflare Workers
     runs-on: ubuntu-latest
 
     steps:
@@ -34,9 +34,9 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=jakelizzi-blog --branch=main
+          command: deploy --config dist/server/wrangler.json

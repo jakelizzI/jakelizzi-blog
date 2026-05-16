@@ -1,7 +1,7 @@
 # Astro Blog with Cloudflare D1 & Google OAuth
 
 Astroをベースに構築された、高速でセキュアな動的ブログシステムです。
-静的サイトジェネレーター(SSG)の枠を超え、Cloudflare Pages 上で SSR (Server-Side Rendering) を行い、Cloudflare D1 (SQLite) と直接通信して記事を配信・管理します。
+静的サイトジェネレーター(SSG)の枠を超え、Cloudflare Workers 上で SSR (Server-Side Rendering) を行い、Cloudflare D1 (SQLite) と直接通信して記事を配信・管理します。
 
 ## 🌟 主な機能
 
@@ -13,7 +13,7 @@ Astroをベースに構築された、高速でセキュアな動的ブログシ
   - リロード不要の「下書き保存 (非同期保存)」と「公開」ステータス管理
   - 記事作成画面から直接新しいカテゴリーを作成できるシームレスなUI
 - **高速な配信環境**
-  - Cloudflare Pages + Cloudflare D1 ネイティブ対応によるエッジ配信
+  - Cloudflare Workers + Cloudflare D1 ネイティブ対応によるエッジ配信
   - ローカル開発時は Wrangler のローカル D1 プロキシを利用して本番と同等の SQLite 環境を構築
 
 ## 🛠 テクノロジースタック
@@ -22,7 +22,7 @@ Astroをベースに構築された、高速でセキュアな動的ブログシ
 - **Database**: SQLite (Production: Cloudflare D1 / Local: Wrangler D1 Proxy)
 - **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
 - **Authentication**: [Better Auth](https://better-auth.com/)
-- **CI/CD**: GitHub Actions（D1マイグレーション → Cloudflare Pages デプロイの順に自動実行）
+- **CI/CD**: GitHub Actions（D1マイグレーション手動実行 + main push で Cloudflare Workers へ自動デプロイ）
 - **Markdown Parsing**: `marked` (サーバーサイドおよびクライアントサイドプレビュー両用)
 - **Styling**: Vanilla CSS (CSS Variablesを活用したカスタムデザイン)
 
@@ -57,8 +57,8 @@ Astroをベースに構築された、高速でセキュアな動的ブログシ
 │   └── seed.ts                # 初期データ投入スクリプト
 ├── .github/
 │   └── workflows/
-│       ├── d1-migrate.yml     # CI: D1マイグレーション（main push時に実行）
-│       └── cf-pages-deploy.yml# CI: Cloudflare Pagesデプロイ（migrate成功後に実行）
+│       ├── d1-migrate.yml       # CI: D1マイグレーション（手動実行）
+│       └── cf-workers-deploy.yml# CI: Cloudflare Workersデプロイ（main push時に自動実行）
 ├── get-local-d1.ts            # ローカル開発用 D1 SQLite ファイルパス解決ユーティリティ
 ├── drizzle.config.ts          # Drizzleの設定ファイル
 └── astro.config.mjs           # Astroの設定ファイル（Cloudflareアダプタ等）
@@ -70,7 +70,7 @@ Astroをベースに構築された、高速でセキュアな動的ブログシ
 本プロジェクトは Nix 環境を使用しています。Node/Bunコマンドを実行する際は、**必ず `nix develop -c` をプレフィックスとして付与してください。**
 
 ### 2. 環境変数の設定
-プロジェクトルートに `.dev.vars` ファイルを作成し、以下の値を設定します。（Cloudflare Pagesのローカル開発には `.env` ではなく `.dev.vars` を使用します）
+プロジェクトルートに `.dev.vars` ファイルを作成し、以下の値を設定します。（Cloudflare Workers のローカル開発には `.env` ではなく `.dev.vars` を使用します）
 
 ```env
 # 認証のベースURL（ローカル開発時）
@@ -123,34 +123,22 @@ nix develop -c bun run dev
 
 ## 🚢 デプロイ（GitHub Actions による自動化）
 
-`main` ブランチへのプッシュ（PRマージ）をトリガーに、GitHub Actions が以下の順序で自動実行されます。
+デプロイは GitHub Actions で管理されます。
 
-```
-main へのプッシュ
-      │
-      ▼
-┌─────────────────────────────┐
-│  d1-migrate.yml             │  ① D1 Migrations
-│  Cloudflare D1 にマイグレーション適用  │
-└─────────────────────────────┘
-      │ 成功した場合のみ
-      ▼
-┌─────────────────────────────┐
-│  cf-pages-deploy.yml        │  ② Deploy
-│  ビルド → Cloudflare Pages デプロイ │
-└─────────────────────────────┘
-```
+| Workflow | トリガー | 内容 |
+|---|---|---|
+| `cf-workers-deploy.yml` | `main` push（自動） | ビルド → Cloudflare Workers デプロイ |
+| `d1-migrate.yml` | 手動実行（`workflow_dispatch`） | Cloudflare D1 にマイグレーション適用 |
+
+スキーマ変更がある場合は、**先に D1 Migrations を手動実行してから** main にマージしてください。
 
 > [!IMPORTANT]
 > **初回セットアップ時のみ** GitHub リポジトリの Settings → Secrets and variables → Actions に以下のシークレットを追加してください。
 >
 > | Secret 名 | 取得場所 |
 > |---|---|
-> | `CLOUDFLARE_API_TOKEN` | Cloudflare ダッシュボード → My Profile → API Tokens（**D1: Edit** と **Cloudflare Pages: Edit** の権限が必要） |
+> | `CLOUDFLARE_API_TOKEN` | Cloudflare ダッシュボード → My Profile → API Tokens（**D1: Edit** と **Workers Scripts: Edit** の権限が必要） |
 > | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare ダッシュボード → Workers & Pages → アカウント ID |
-
-> [!NOTE]
-> Cloudflare Pages の **自動デプロイ（Auto Deploy）は OFF** にしてください。デプロイは GitHub Actions 経由でのみ行います。
 
 ### ローカル開発時のマイグレーション
 
