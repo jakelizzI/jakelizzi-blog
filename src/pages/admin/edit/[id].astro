@@ -10,8 +10,12 @@ const db = Astro.locals.db;
 const article = await db.select().from(draftArticles).where(eq(draftArticles.id, id)).get();
 if (!article) return Astro.redirect("/admin");
 
-const publishedArticle = await db.select({ status: articlesTable.status }).from(articlesTable).where(eq(articlesTable.id, id)).get();
-const isPrivate = publishedArticle?.status === 'private';
+const publishedArticle = await db
+  .select({ status: articlesTable.status })
+  .from(articlesTable)
+  .where(eq(articlesTable.id, id))
+  .get();
+const isPrivate = publishedArticle?.status === "private";
 
 const categories = await db.select().from(categoriesTable);
 ---
@@ -64,13 +68,26 @@ const categories = await db.select().from(categoriesTable);
           <div id="newCategoryBox" class="new-category-box" style="display: none;">
             <span class="box-label">新規カテゴリー作成:</span>
             <input type="text" id="newCategoryName" name="newCategoryName" placeholder="新しいカテゴリ名" />
-            <input type="text" id="newCategorySlug" name="newCategorySlug" placeholder="カテゴリスラッグ (例: design)" />
+            <input
+              type="text"
+              id="newCategorySlug"
+              name="newCategorySlug"
+              placeholder="カテゴリスラッグ (例: design)"
+            />
           </div>
         </div>
 
         <div class="form-group">
           <label for="readTime">読了時間（分）自動計算</label>
-          <input type="number" id="readTime" name="readTime" min="1" value={article.readTime} readonly class="readonly-input" />
+          <input
+            type="number"
+            id="readTime"
+            name="readTime"
+            min="1"
+            value={article.readTime}
+            readonly
+            class="readonly-input"
+          />
         </div>
       </div>
 
@@ -88,7 +105,7 @@ const categories = await db.select().from(categoriesTable);
       <div class="submit-actions">
         <button type="button" id="btnDraft" class="btn btn-secondary btn-submit">ドラフト保存</button>
         <button type="submit" name="intent" value="reflect" class="btn btn-primary btn-submit">
-          {isPrivate ? '非公開へ反映' : '公開中へ反映'}
+          {isPrivate ? "非公開へ反映" : "公開中へ反映"}
         </button>
       </div>
     </form>
@@ -292,7 +309,7 @@ const categories = await db.select().from(categoriesTable);
       const updatePreview = async () => {
         previewArea.innerHTML = await marked.parse(contentInput.value, { breaks: true });
       };
-      
+
       const autoResize = () => {
         contentInput.style.height = "auto";
         contentInput.style.height = contentInput.scrollHeight + "px";
@@ -314,7 +331,7 @@ const categories = await db.select().from(categoriesTable);
         autoResize();
         updateReadTime();
       });
-      
+
       updatePreview(); // initial render
       updateReadTime(); // initial calc
       setTimeout(autoResize, 0); // initial resize
@@ -389,14 +406,66 @@ const categories = await db.select().from(categoriesTable);
     }
   }
 
+  function setupMarkdownEditor() {
+    const contentInput = document.getElementById("content") as HTMLTextAreaElement;
+    if (!contentInput) return;
+
+    contentInput.addEventListener("keydown", (e) => {
+      // Tabキーの挙動をスペース2文字のインデントに変更
+      if (e.key === "Tab") {
+        e.preventDefault();
+        const start = contentInput.selectionStart;
+        const end = contentInput.selectionEnd;
+
+        contentInput.value = contentInput.value.substring(0, start) + "  " + contentInput.value.substring(end);
+        contentInput.selectionStart = contentInput.selectionEnd = start + 2;
+
+        contentInput.dispatchEvent(new Event("input"));
+      }
+
+      // Enterキーで箇条書きの自動挿入
+      if (e.key === "Enter") {
+        const start = contentInput.selectionStart;
+        const value = contentInput.value;
+
+        // カーソル位置の行を取得
+        const textBeforeCursor = value.substring(0, start);
+        const lastLineStart = textBeforeCursor.lastIndexOf("\n") + 1;
+        const lastLine = textBeforeCursor.substring(lastLineStart);
+
+        // 行頭が '- ' または '* ' かどうか判定（スペースのインデントも許容）
+        const match = lastLine.match(/^(\s*[-*]\s+)/);
+
+        if (match) {
+          e.preventDefault();
+          const prefix = match[1];
+
+          // 空の箇条書き（'- ' のみ）でEnterを押した場合は、リストを解除して改行する
+          if (lastLine === prefix) {
+            contentInput.value = value.substring(0, lastLineStart) + "\n" + value.substring(start);
+            contentInput.selectionStart = contentInput.selectionEnd = lastLineStart;
+          } else {
+            // 通常のリスト継続
+            contentInput.value = value.substring(0, start) + "\n" + prefix + value.substring(start);
+            contentInput.selectionStart = contentInput.selectionEnd = start + 1 + prefix.length;
+          }
+
+          contentInput.dispatchEvent(new Event("input"));
+        }
+      }
+    });
+  }
+
   // 初回ロード時
   setupCategorySelect();
   setupPreview();
   setupAjaxDraft();
+  setupMarkdownEditor();
   // View Transitionsが有効な場合
   document.addEventListener("astro:page-load", () => {
     setupCategorySelect();
     setupPreview();
     setupAjaxDraft();
+    setupMarkdownEditor();
   });
 </script>
