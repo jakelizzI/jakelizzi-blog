@@ -10,8 +10,12 @@ const db = Astro.locals.db;
 const article = await db.select().from(draftArticles).where(eq(draftArticles.id, id)).get();
 if (!article) return Astro.redirect("/admin");
 
-const publishedArticle = await db.select({ status: articlesTable.status }).from(articlesTable).where(eq(articlesTable.id, id)).get();
-const isPrivate = publishedArticle?.status === 'private';
+const publishedArticle = await db
+  .select({ status: articlesTable.status })
+  .from(articlesTable)
+  .where(eq(articlesTable.id, id))
+  .get();
+const isPrivate = publishedArticle?.status === "private";
 
 const categories = await db.select().from(categoriesTable);
 ---
@@ -64,13 +68,26 @@ const categories = await db.select().from(categoriesTable);
           <div id="newCategoryBox" class="new-category-box" style="display: none;">
             <span class="box-label">新規カテゴリー作成:</span>
             <input type="text" id="newCategoryName" name="newCategoryName" placeholder="新しいカテゴリ名" />
-            <input type="text" id="newCategorySlug" name="newCategorySlug" placeholder="カテゴリスラッグ (例: design)" />
+            <input
+              type="text"
+              id="newCategorySlug"
+              name="newCategorySlug"
+              placeholder="カテゴリスラッグ (例: design)"
+            />
           </div>
         </div>
 
         <div class="form-group">
           <label for="readTime">読了時間（分）自動計算</label>
-          <input type="number" id="readTime" name="readTime" min="1" value={article.readTime} readonly class="readonly-input" />
+          <input
+            type="number"
+            id="readTime"
+            name="readTime"
+            min="1"
+            value={article.readTime}
+            readonly
+            class="readonly-input"
+          />
         </div>
       </div>
 
@@ -88,7 +105,7 @@ const categories = await db.select().from(categoriesTable);
       <div class="submit-actions">
         <button type="button" id="btnDraft" class="btn btn-secondary btn-submit">ドラフト保存</button>
         <button type="submit" name="intent" value="reflect" class="btn btn-primary btn-submit">
-          {isPrivate ? '非公開へ反映' : '公開中へ反映'}
+          {isPrivate ? "非公開へ反映" : "公開中へ反映"}
         </button>
       </div>
     </form>
@@ -244,6 +261,7 @@ const categories = await db.select().from(categoriesTable);
   import { marked } from "marked";
   import { markedHighlight } from "marked-highlight";
   import hljs from "highlight.js";
+  import { setupMarkdownEditor } from "../../../lib/editor";
 
   marked.use(
     markedHighlight({
@@ -262,7 +280,8 @@ const categories = await db.select().from(categoriesTable);
     const newCategoryName = document.getElementById("newCategoryName");
     const newCategorySlug = document.getElementById("newCategorySlug");
 
-    if (categorySelect && newCategoryBox && newCategoryName && newCategorySlug) {
+    if (categorySelect && newCategoryBox && newCategoryName && newCategorySlug && !categorySelect.dataset.selectInit) {
+      categorySelect.dataset.selectInit = "true";
       categorySelect.addEventListener("change", (e) => {
         if ((e.target as HTMLSelectElement).value === "new") {
           newCategoryBox.style.display = "flex";
@@ -288,11 +307,12 @@ const categories = await db.select().from(categoriesTable);
     const contentInput = document.getElementById("content") as HTMLTextAreaElement;
     const previewArea = document.getElementById("preview");
 
-    if (contentInput && previewArea) {
+    if (contentInput && previewArea && !contentInput.dataset.previewInit) {
+      contentInput.dataset.previewInit = "true";
       const updatePreview = async () => {
         previewArea.innerHTML = await marked.parse(contentInput.value, { breaks: true });
       };
-      
+
       const autoResize = () => {
         contentInput.style.height = "auto";
         contentInput.style.height = contentInput.scrollHeight + "px";
@@ -314,7 +334,7 @@ const categories = await db.select().from(categoriesTable);
         autoResize();
         updateReadTime();
       });
-      
+
       updatePreview(); // initial render
       updateReadTime(); // initial calc
       setTimeout(autoResize, 0); // initial resize
@@ -336,7 +356,8 @@ const categories = await db.select().from(categoriesTable);
       }, 3000);
     }
 
-    if (btnDraft && form) {
+    if (btnDraft && form && !form.dataset.ajaxInit) {
+      form.dataset.ajaxInit = "true";
       const newBtnDraft = btnDraft.cloneNode(true);
       btnDraft.parentNode?.replaceChild(newBtnDraft, btnDraft);
 
@@ -389,14 +410,11 @@ const categories = await db.select().from(categoriesTable);
     }
   }
 
-  // 初回ロード時
-  setupCategorySelect();
-  setupPreview();
-  setupAjaxDraft();
-  // View Transitionsが有効な場合
+  // View Transitionsが有効な場合、このイベントは初回ロード時とページ遷移時の両方で発火します
   document.addEventListener("astro:page-load", () => {
     setupCategorySelect();
     setupPreview();
     setupAjaxDraft();
+    setupMarkdownEditor();
   });
 </script>
