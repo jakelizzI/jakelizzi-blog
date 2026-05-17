@@ -1,6 +1,9 @@
 export function setupMarkdownEditor() {
-  const contentInput = document.getElementById("content") as HTMLTextAreaElement;
-  if (!contentInput || contentInput.dataset.editorInit) return;
+  const el = document.getElementById("content");
+  if (!el || !(el instanceof HTMLTextAreaElement)) return;
+
+  const contentInput = el;
+  if (contentInput.dataset.editorInit) return;
   contentInput.dataset.editorInit = "true";
 
   contentInput.addEventListener("keydown", (e) => {
@@ -44,6 +47,7 @@ export function setupMarkdownEditor() {
     // Enterキーで箇条書きの自動挿入
     if (e.key === "Enter") {
       const start = contentInput.selectionStart;
+      const end = contentInput.selectionEnd;
       const value = contentInput.value;
 
       // カーソル位置の行を取得
@@ -51,21 +55,23 @@ export function setupMarkdownEditor() {
       const lastLineStart = textBeforeCursor.lastIndexOf("\n") + 1;
       const lastLine = textBeforeCursor.substring(lastLineStart);
 
-      // 行頭が '- ' または '* ' かどうか判定（スペースのインデントも許容）
-      const match = lastLine.match(/^(\s*[-*]\s+)/);
+      // 行頭のインデントとリストマーカーを個別にキャプチャ
+      const match = lastLine.match(/^(\s*)([-*])\s+/);
 
       if (match) {
         e.preventDefault();
-        const prefix = match[1];
+        const indent = match[1];
+        const bullet = match[2];
+        const prefix = `${indent}${bullet} `;
 
-        // 空の箇条書き（'- ' のみ）でEnterを押した場合は、リストを解除して改行する
-        if (lastLine === prefix) {
-          contentInput.value = value.substring(0, lastLineStart) + "\n" + value.substring(start);
+        // 空の箇条書き（マーカーのみ）でEnterを押した場合は、リストを解除して改行する
+        if (lastLine.trim() === bullet) {
+          contentInput.value = value.substring(0, lastLineStart) + "\n" + value.substring(end);
           // カーソルを改行の直後に設定
           contentInput.selectionStart = contentInput.selectionEnd = lastLineStart + 1;
         } else {
           // 通常のリスト継続
-          contentInput.value = value.substring(0, start) + "\n" + prefix + value.substring(start);
+          contentInput.value = value.substring(0, start) + "\n" + prefix + value.substring(end);
           contentInput.selectionStart = contentInput.selectionEnd = start + 1 + prefix.length;
         }
 
