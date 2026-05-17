@@ -226,6 +226,7 @@ const categories = await db.select().from(categoriesTable);
   import { marked } from "marked";
   import { markedHighlight } from "marked-highlight";
   import hljs from "highlight.js";
+  import { setupMarkdownEditor } from "../../lib/editor";
 
   marked.use(
     markedHighlight({
@@ -244,7 +245,8 @@ const categories = await db.select().from(categoriesTable);
     const newCategoryName = document.getElementById("newCategoryName");
     const newCategorySlug = document.getElementById("newCategorySlug");
 
-    if (categorySelect && newCategoryBox && newCategoryName && newCategorySlug) {
+    if (categorySelect && newCategoryBox && newCategoryName && newCategorySlug && !categorySelect.dataset.selectInit) {
+      categorySelect.dataset.selectInit = "true";
       categorySelect.addEventListener("change", (e) => {
         if ((e.target as HTMLSelectElement).value === "new") {
           newCategoryBox.style.display = "flex";
@@ -265,7 +267,8 @@ const categories = await db.select().from(categoriesTable);
     const contentInput = document.getElementById("content") as HTMLTextAreaElement;
     const previewArea = document.getElementById("preview");
 
-    if (contentInput && previewArea) {
+    if (contentInput && previewArea && !contentInput.dataset.previewInit) {
+      contentInput.dataset.previewInit = "true";
       const updatePreview = async () => {
         previewArea.innerHTML = await marked.parse(contentInput.value, { breaks: true });
       };
@@ -313,7 +316,8 @@ const categories = await db.select().from(categoriesTable);
       }, 3000);
     }
 
-    if (btnDraft && form) {
+    if (btnDraft && form && !form.dataset.ajaxInit) {
+      form.dataset.ajaxInit = "true";
       const newBtnDraft = btnDraft.cloneNode(true);
       btnDraft.parentNode?.replaceChild(newBtnDraft, btnDraft);
 
@@ -372,83 +376,7 @@ const categories = await db.select().from(categoriesTable);
     }
   }
 
-  function setupMarkdownEditor() {
-    const contentInput = document.getElementById("content") as HTMLTextAreaElement;
-    if (!contentInput) return;
-
-    contentInput.addEventListener('keydown', (e) => {
-      // Tab / Shift+Tab キーの挙動をスペース2文字のインデント操作に変更
-      if (e.key === 'Tab') {
-        e.preventDefault();
-        const start = contentInput.selectionStart;
-        const end = contentInput.selectionEnd;
-        const value = contentInput.value;
-        
-        if (e.shiftKey) {
-          // Shift+Tab: 現在の行の先頭からスペースを最大2つ削除
-          const lineStart = value.substring(0, start).lastIndexOf('\n') + 1;
-          const lineText = value.substring(lineStart);
-          
-          let spacesToRemove = 0;
-          if (lineText.startsWith('  ')) {
-            spacesToRemove = 2;
-          } else if (lineText.startsWith(' ')) {
-            spacesToRemove = 1;
-          }
-
-          if (spacesToRemove > 0) {
-            contentInput.value = value.substring(0, lineStart) + value.substring(lineStart + spacesToRemove);
-            // カーソル位置を調整（行頭より前にはいかないようにする）
-            contentInput.selectionStart = contentInput.selectionEnd = Math.max(lineStart, start - spacesToRemove);
-            contentInput.dispatchEvent(new Event('input'));
-          }
-        } else {
-          // 通常のTab: カーソル位置にスペース2文字を挿入
-          contentInput.value = value.substring(0, start) + "  " + value.substring(end);
-          contentInput.selectionStart = contentInput.selectionEnd = start + 2;
-          contentInput.dispatchEvent(new Event('input'));
-        }
-      }
-
-      // Enterキーで箇条書きの自動挿入
-      if (e.key === "Enter") {
-        const start = contentInput.selectionStart;
-        const value = contentInput.value;
-
-        // カーソル位置の行を取得
-        const textBeforeCursor = value.substring(0, start);
-        const lastLineStart = textBeforeCursor.lastIndexOf("\n") + 1;
-        const lastLine = textBeforeCursor.substring(lastLineStart);
-
-        // 行頭が '- ' または '* ' かどうか判定（スペースのインデントも許容）
-        const match = lastLine.match(/^(\s*[-*]\s+)/);
-
-        if (match) {
-          e.preventDefault();
-          const prefix = match[1];
-
-          // 空の箇条書き（'- ' のみ）でEnterを押した場合は、リストを解除して改行する
-          if (lastLine === prefix) {
-            contentInput.value = value.substring(0, lastLineStart) + "\n" + value.substring(start);
-            contentInput.selectionStart = contentInput.selectionEnd = lastLineStart;
-          } else {
-            // 通常のリスト継続
-            contentInput.value = value.substring(0, start) + "\n" + prefix + value.substring(start);
-            contentInput.selectionStart = contentInput.selectionEnd = start + 1 + prefix.length;
-          }
-
-          contentInput.dispatchEvent(new Event("input"));
-        }
-      }
-    });
-  }
-
-  // 初回ロード時
-  setupCategorySelect();
-  setupPreview();
-  setupAjaxDraft();
-  setupMarkdownEditor();
-  // View Transitionsが有効な場合
+  // View Transitionsが有効な場合、このイベントは初回ロード時とページ遷移時の両方で発火します
   document.addEventListener("astro:page-load", () => {
     setupCategorySelect();
     setupPreview();
