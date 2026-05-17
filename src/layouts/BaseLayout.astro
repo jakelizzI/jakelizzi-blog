@@ -13,6 +13,14 @@ const {
   title = "jakelizzi's blog",
   description = "jakelizziが気ままにノンジャンルで色々書いたりしようと思っています",
 } = Astro.props;
+
+// Cloudflare Workersのruntime envからPUBLIC_GA_IDを取得（ローカル開発時はprocess.envやimport.meta.envにフォールバック）
+const env = Astro.locals?.runtime?.env || {};
+// @ts-ignore
+const gaId =
+  env.PUBLIC_GA_ID ||
+  (typeof process !== "undefined" ? process.env.PUBLIC_GA_ID : null) ||
+  import.meta.env.PUBLIC_GA_ID;
 ---
 
 <!doctype html>
@@ -24,17 +32,22 @@ const {
     <title>{title}</title>
 
     {/* Google Analytics (PUBLIC_GA_ID が設定されている場合のみ出力) */}
-    {import.meta.env.PUBLIC_GA_ID && (
-      <>
-        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`}></script>
-        <script is:inline define:vars={{ gaId: import.meta.env.PUBLIC_GA_ID }}>
+    {
+      gaId && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+          <script
+            is:inline
+            set:html={`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', gaId);
-        </script>
-      </>
-    )}
+          gtag('config', '${gaId}');
+        `}
+          />
+        </>
+      )
+    }
   </head>
   <body>
     <Header />
