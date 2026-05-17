@@ -410,11 +410,13 @@ const categories = await db.select().from(categoriesTable);
     }
   }
 
-  // View Transitionsが有効な場合、このイベントは初回ロード時とページ遷移時の両方で発火します
-  document.addEventListener("astro:page-load", () => {
+  function initClientUI() {
     setupCategorySelect();
     setupPreview();
     setupAjaxDraft();
     setupMarkdownEditor();
-  });
+  }
+
+  // <script> in Astro is type="module" by default and deferred, so DOM is ready.
+  initClientUI();
 </script>
