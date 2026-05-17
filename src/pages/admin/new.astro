@@ -376,17 +376,38 @@ const categories = await db.select().from(categoriesTable);
     const contentInput = document.getElementById("content") as HTMLTextAreaElement;
     if (!contentInput) return;
 
-    contentInput.addEventListener("keydown", (e) => {
-      // Tabキーの挙動をスペース2文字のインデントに変更
-      if (e.key === "Tab") {
+    contentInput.addEventListener('keydown', (e) => {
+      // Tab / Shift+Tab キーの挙動をスペース2文字のインデント操作に変更
+      if (e.key === 'Tab') {
         e.preventDefault();
         const start = contentInput.selectionStart;
         const end = contentInput.selectionEnd;
+        const value = contentInput.value;
+        
+        if (e.shiftKey) {
+          // Shift+Tab: 現在の行の先頭からスペースを最大2つ削除
+          const lineStart = value.substring(0, start).lastIndexOf('\n') + 1;
+          const lineText = value.substring(lineStart);
+          
+          let spacesToRemove = 0;
+          if (lineText.startsWith('  ')) {
+            spacesToRemove = 2;
+          } else if (lineText.startsWith(' ')) {
+            spacesToRemove = 1;
+          }
 
-        contentInput.value = contentInput.value.substring(0, start) + "  " + contentInput.value.substring(end);
-        contentInput.selectionStart = contentInput.selectionEnd = start + 2;
-
-        contentInput.dispatchEvent(new Event("input"));
+          if (spacesToRemove > 0) {
+            contentInput.value = value.substring(0, lineStart) + value.substring(lineStart + spacesToRemove);
+            // カーソル位置を調整（行頭より前にはいかないようにする）
+            contentInput.selectionStart = contentInput.selectionEnd = Math.max(lineStart, start - spacesToRemove);
+            contentInput.dispatchEvent(new Event('input'));
+          }
+        } else {
+          // 通常のTab: カーソル位置にスペース2文字を挿入
+          contentInput.value = value.substring(0, start) + "  " + value.substring(end);
+          contentInput.selectionStart = contentInput.selectionEnd = start + 2;
+          contentInput.dispatchEvent(new Event('input'));
+        }
       }
 
       // Enterキーで箇条書きの自動挿入
